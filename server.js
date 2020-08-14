@@ -17,7 +17,7 @@ mongoose.connect("mongodb://localhost:27017/gtsys", {
 });
 
 const product = require("./lib/routes/products")
-app.use("/", product);
+app.use("/products", product);
 
 app.listen(port, () => {
   console.log("Server started on port 3000");

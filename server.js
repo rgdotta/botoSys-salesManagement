@@ -1,24 +1,31 @@
 require("dotenv").config();
-const express = require("express");
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
-const path = require("path")
+const express = require("express"),
+  bodyParser = require("body-parser"),
+  mongoose = require("mongoose"),
+  path = require("path");
 
-const app = express();
-const port = process.env.PORT || 3000;
+//API routes
+const routes = require("./lib/routes/index");
+
+//Express config
+const app = express(),
+  port = process.env.PORT || 9000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(express.static(path.resolve("./public")));
 
+//Mongoose Connect
 mongoose.connect("mongodb://localhost:27017/gtsys", {
   useUnifiedTopology: true,
   useNewUrlParser: true,
   useFindAndModify: false,
 });
 
-const product = require("./lib/routes/products")
-app.use("/products", product);
+// app.use("/api/test", test);
+app.use("/api/products", routes.products);
 
+//Listen to port
 app.listen(port, () => {
-  console.log("Server started on port 3000");
+  console.log("Server started on port 9000");
 });

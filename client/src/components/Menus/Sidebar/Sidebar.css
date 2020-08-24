@@ -1,0 +1,18 @@
+@media (max-width: 780px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+.sidebar {
+  height: 100%;
+  margin-right: 24px;
+}
+
+.ant-layout-sider-trigger {
+  position: relative !important;
+}
+
+.ant-layout-content {
+  display: none;
+}

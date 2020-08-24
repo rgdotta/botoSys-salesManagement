@@ -13,12 +13,12 @@ const TopicMenu = ({ topics }) => {
   const styledTopics = [];
   const icons = [<DollarCircleOutlined />, <CarOutlined />, <TeamOutlined />];
 
-  topics.forEach((topic, index) =>
+  topics.map((topic, index) =>
     styledTopics.push(
       <Menu.SubMenu key={index} title={topic.name} icon={icons[topic.icon]}>
-        {topic.options.map((option, index) => {
+        {topic.options.map((option, id) => {
           return (
-            <Menu.Item key={index}>
+            <Menu.Item key={"" + index + id}>
               <Link to={option.route}>{option.name}</Link>
             </Menu.Item>
           );

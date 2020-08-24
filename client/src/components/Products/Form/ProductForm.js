@@ -1,18 +1,14 @@
 import React, { useState } from "react";
 
-const ProductForm = (props) => {
-  const [product, setProduct] = useState({
-    type: "",
-    code: "",
-    name: "",
-    photoURL: "",
-    stock: 0,
-    psv: 0,
-  });
+import { Form, Input, Button, Select, InputNumber } from "antd";
+import "./ProductForm.css";
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+const ProductForm = ({ click, btnName, options }) => {
+  const [product, setProduct] = useState(options.product);
+  const [error, setError] = useState({});
 
+  const handleChange = (name, value) => {
+    //create
     setProduct((prev) => {
       return {
         ...prev,
@@ -21,80 +17,136 @@ const ProductForm = (props) => {
     });
   };
 
-  console.log(props);
+  console.log(product);
+
+  const submitProduct = (e) => {
+    //validation
+    let errors = {};
+    let valid = true;
+    const required = "Campo obrigatório.";
+
+    if (!product["type"]) {
+      errors["type"] = required;
+      valid = false;
+    }
+
+    if (!product["code"]) {
+      errors["code"] = required;
+      valid = false;
+    }
+
+    if (!product["name"]) {
+      errors["name"] = required;
+      valid = false;
+    }
+
+    if (!product["psv"]) {
+      errors["psv"] = required;
+      valid = false;
+    }
+
+    if (!valid) {
+      setError(errors);
+    } else {
+      click(e, product);
+
+      setError({});
+      setProduct({
+        type: "",
+        code: "",
+        name: "",
+        photoURL: "",
+        stock: 0,
+        psv: 0,
+      });
+    }
+
+    e.preventDefault();
+  };
 
   return (
-    <form>
-      <label htmlFor="type">Tipo de Produto:</label>
-      <select
-        name="type"
-        defaultValue={"default"}
-        onChange={handleChange}
-        required
+    <Form
+      className="form"
+      size="large"
+      labelCol={{ span: 4 }}
+      wrapperCol={{ span: 14 }}
+    >
+      <Form.Item
+        label="Tipo:"
+        validateStatus={error["type"] ? "error" : "success"}
+        help={error["type"]}
       >
-        <option disabled value="default">
-          Selecione uma opção
-        </option>
-        <option value="Cockpit">Cockpit</option>
-        <option value="Suporte de TV">Suporte de TV</option>
-        <option value="Acessório">Acessório</option>
-        <option value="Volante">Volante</option>
-        <option value="Outros">Outros</option>
-      </select>
+        <Select
+          id="Select"
+          name="type"
+          defaultValue={options.selectDefault}
+          onChange={(value) => handleChange("type", value)}
+        >
+          <Select.Option disabled value="default">
+            Selecione uma opção
+          </Select.Option>
+          <Select.Option value="Cockpit">Cockpit</Select.Option>
+          <Select.Option value="Suporte de TV">Suporte de TV</Select.Option>
+          <Select.Option value="Acessório">Acessório</Select.Option>
+          <Select.Option value="Volante">Volante</Select.Option>
+          <Select.Option value="Outros">Outros</Select.Option>
+        </Select>
+      </Form.Item>
 
-      <label htmlFor="code" required>
-        Código:
-      </label>
-      <input
-        type="text"
-        name="code"
-        value={product.code}
-        onChange={handleChange}
-      />
+      <Form.Item
+        label="Código: "
+        validateStatus={error["code"] ? "error" : "success"}
+        help={error["code"]}
+      >
+        <Input
+          value={product.code}
+          onChange={(e) => handleChange("code", e.target.value)}
+        />
+      </Form.Item>
 
-      <label htmlFor="name" required>
-        Nome:
-      </label>
-      <input
-        type="text"
-        name="name"
-        value={product.name}
-        onChange={handleChange}
-      />
+      <Form.Item
+        label="Nome:"
+        validateStatus={error["name"] ? "error" : "success"}
+        help={error["name"]}
+      >
+        <Input
+          value={product.name}
+          onChange={(e) => handleChange("name", e.target.value)}
+        />
+      </Form.Item>
 
-      <label htmlFor="photoURL">Foto:</label>
-      <input
-        type="text"
-        name="photoURL"
-        value={product.photoURL}
-        onChange={handleChange}
-      />
+      <Form.Item label="Foto URL:">
+        <Input
+          value={product.photoURL}
+          onChange={(e) => handleChange("photoURL", e.target.value)}
+        />
+      </Form.Item>
 
-      <label htmlFor="stock">Estoque:</label>
-      <input
-        type="number"
-        name="stock"
-        value={product.stock}
-        onChange={handleChange}
-      />
+      <Form.Item label="Estoque:">
+        <InputNumber
+          value={product.stock}
+          onChange={(value) => handleChange("stock", value)}
+        />
+      </Form.Item>
 
-      <label htmlFor="psv" required>
-        PSV:
-      </label>
-      <input
-        type="number"
-        name="psv"
-        value={product.psv}
-        step="0.01"
-        onChange={handleChange}
-      />
+      <Form.Item
+        label="PSV:"
+        validateStatus={error["psv"] ? "error" : "success"}
+        help={error["psv"]}
+      >
+        <InputNumber
+          value={product.psv}
+          step={0.2}
+          onChange={(value) => handleChange("psv", value)}
+        />
+      </Form.Item>
 
-      <input
-        type="submit"
-        value={props.btnName}
-        onClick={(e) => props.click(e, product)}
-      />
-    </form>
+      <Form.Item>
+        <Button size="large" type="primary" onClick={submitProduct}>
+          {btnName}
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
 

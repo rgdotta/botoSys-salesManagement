@@ -17,9 +17,25 @@ const App = () => {
       name: "Vendas",
       icon: 0,
       options: [
-        { name: "Registrar", route: "/products/create" },
-        { name: "Consultar", route: "/products/show" },
-        { name: "Montagem", route: "z" },
+        { name: "Cadastrar", route: "/sales/create" },
+        { name: "Consultar", route: "/sales/show" },
+        { name: "Montagem", route: "/sales/order" },
+      ],
+    },
+    {
+      name: "Produtos",
+      icon: 1,
+      options: [
+        { name: "Cadastrar", route: "/products/create" },
+        { name: "Catalogo", route: "/products/show" },
+      ],
+    },
+    {
+      name: "Clientes",
+      icon: 2,
+      options: [
+        { name: "Cadastrar", route: "/clients/create" },
+        { name: "Lista", route: "/clients/show" },
       ],
     },
   ];
@@ -29,15 +45,15 @@ const App = () => {
   return (
     <div className="App">
       <Router>
-        <Layout style={{ minHeight: "100vh" }}>
+        <Layout style={{ minHeight: "100vh", width: "100%" }}>
           <div>
             <NavBar menu={Menu} />
 
             <SideBar menu={Menu} />
             <Layout.Content className="content">{topics.name}</Layout.Content>
           </div>
-          <div>
-            <Layout className="site-layout">
+          <div className="siteContainer">
+            <Layout className="siteLayout">
               <Switch>
                 <div className="products">
                   <Route path="/products/create">

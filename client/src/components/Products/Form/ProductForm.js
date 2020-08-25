@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Form, Input, Button, Select, InputNumber } from "antd";
 import "./ProductForm.css";
 
-const ProductForm = ({ click, btnName, options }) => {
+const ProductForm = ({ click, actionType, options }) => {
   const [product, setProduct] = useState(options.product);
   const [error, setError] = useState({});
 
@@ -18,6 +18,18 @@ const ProductForm = ({ click, btnName, options }) => {
   };
 
   console.log(product);
+
+  const handleSize = (name, value) => {
+    setProduct((prev) => {
+      return {
+        ...prev,
+        dimensions: {
+          ...prev.dimensions,
+          [name]: value,
+        },
+      };
+    });
+  };
 
   const submitProduct = (e) => {
     //validation
@@ -51,102 +63,145 @@ const ProductForm = ({ click, btnName, options }) => {
       click(e, product);
 
       setError({});
-      setProduct({
-        type: "",
-        code: "",
-        name: "",
-        photoURL: "",
-        stock: 0,
-        psv: 0,
-      });
+      setProduct(options.product);
     }
 
     e.preventDefault();
   };
 
   return (
-    <Form
-      className="form"
-      size="large"
-      labelCol={{ span: 4 }}
-      wrapperCol={{ span: 14 }}
-    >
-      <Form.Item
-        label="Tipo:"
-        validateStatus={error["type"] ? "error" : "success"}
-        help={error["type"]}
+    <div className="formContainer">
+      <Form
+        className="form"
+        size="large"
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 14 }}
+        formLayout="horinzontal"
       >
-        <Select
-          id="Select"
-          name="type"
-          defaultValue={options.selectDefault}
-          onChange={(value) => handleChange("type", value)}
+        <div className="formTitle">
+          <h1>{actionType} Produto</h1>
+        </div>
+        <Form.Item
+          label="Tipo:"
+          validateStatus={error["type"] ? "error" : "success"}
+          help={error["type"]}
         >
-          <Select.Option disabled value="default">
-            Selecione uma opção
-          </Select.Option>
-          <Select.Option value="Cockpit">Cockpit</Select.Option>
-          <Select.Option value="Suporte de TV">Suporte de TV</Select.Option>
-          <Select.Option value="Acessório">Acessório</Select.Option>
-          <Select.Option value="Volante">Volante</Select.Option>
-          <Select.Option value="Outros">Outros</Select.Option>
-        </Select>
-      </Form.Item>
+          <Select
+            id="Select"
+            name="type"
+            defaultValue={options.selectDefault}
+            onChange={(value) => handleChange("type", value)}
+          >
+            <Select.Option disabled value="default">
+              Selecione uma opção
+            </Select.Option>
+            <Select.Option value="Cockpit">Cockpit</Select.Option>
+            <Select.Option value="Suporte de TV">Suporte de TV</Select.Option>
+            <Select.Option value="Acessório">Acessório</Select.Option>
+            <Select.Option value="Volante">Volante</Select.Option>
+            <Select.Option value="Outros">Outros</Select.Option>
+          </Select>
+        </Form.Item>
 
-      <Form.Item
-        label="Código: "
-        validateStatus={error["code"] ? "error" : "success"}
-        help={error["code"]}
-      >
-        <Input
-          value={product.code}
-          onChange={(e) => handleChange("code", e.target.value)}
-        />
-      </Form.Item>
+        <Form.Item
+          label="Código"
+          validateStatus={error["code"] ? "error" : "success"}
+          help={error["code"]}
+        >
+          <Input
+            placeholder="Ex: GTCLM001"
+            value={product.code}
+            onChange={(e) => handleChange("code", e.target.value)}
+          />
+        </Form.Item>
 
-      <Form.Item
-        label="Nome:"
-        validateStatus={error["name"] ? "error" : "success"}
-        help={error["name"]}
-      >
-        <Input
-          value={product.name}
-          onChange={(e) => handleChange("name", e.target.value)}
-        />
-      </Form.Item>
+        <Form.Item
+          label="Nome:"
+          validateStatus={error["name"] ? "error" : "success"}
+          help={error["name"]}
+        >
+          <Input
+            value={product.name}
+            onChange={(e) => handleChange("name", e.target.value)}
+            placeholder="Ex: Cockpit Aluminium LM SPEC"
+          />
+        </Form.Item>
 
-      <Form.Item label="Foto URL:">
-        <Input
-          value={product.photoURL}
-          onChange={(e) => handleChange("photoURL", e.target.value)}
-        />
-      </Form.Item>
+        <Form.Item label="Foto URL:">
+          <Input
+            value={product.photoURL}
+            onChange={(e) => handleChange("photoURL", e.target.value)}
+          />
+        </Form.Item>
 
-      <Form.Item label="Estoque:">
-        <InputNumber
-          value={product.stock}
-          onChange={(value) => handleChange("stock", value)}
-        />
-      </Form.Item>
+        <hr />
 
-      <Form.Item
-        label="PSV:"
-        validateStatus={error["psv"] ? "error" : "success"}
-        help={error["psv"]}
-      >
-        <InputNumber
-          value={product.psv}
-          step={0.2}
-          onChange={(value) => handleChange("psv", value)}
-        />
-      </Form.Item>
+        <Form.Item label="Estoque:">
+          <InputNumber
+            value={product.stock}
+            onChange={(value) => handleChange("stock", value)}
+          />
+        </Form.Item>
 
-      <Form.Item>
-        <Button size="large" type="primary" onClick={submitProduct}>
-          {btnName}
-        </Button>
-      </Form.Item>
-    </Form>
+        <Form.Item
+          label="PSV:"
+          validateStatus={error["psv"] ? "error" : "success"}
+          help={error["psv"]}
+        >
+          <InputNumber
+            value={product.psv}
+            step={0.2}
+            onChange={(value) => handleChange("psv", value)}
+          />
+        </Form.Item>
+
+        <hr />
+
+        <Form.Item label="Dimensões (cm)">
+          <Input.Group compact>
+            <Form.Item className="dimensionItems" label="A">
+              <InputNumber
+                value={product.dimensions.height}
+                onChange={(value) => handleSize("height", value)}
+              />
+            </Form.Item>
+
+            <Form.Item className="dimensionItems" label="C">
+              <InputNumber
+                value={product.dimensions.length}
+                onChange={(value) => handleSize("length", value)}
+              />
+            </Form.Item>
+
+            <Form.Item className="dimensionItems" label="L">
+              <InputNumber
+                value={product.dimensions.width}
+                onChange={(value) => handleSize("width", value)}
+              />
+            </Form.Item>
+          </Input.Group>
+        </Form.Item>
+
+        <Form.Item label="Peso (kg):">
+          <InputNumber
+            value={product.weight}
+            step={0.2}
+            onChange={(value) => handleChange("weight", value)}
+          />
+        </Form.Item>
+
+        <Form.Item className="btnContainer">
+          <Button
+            className="btn"
+            size="large"
+            type="primary"
+            onClick={submitProduct}
+          >
+            {actionType}
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
   );
 };
 

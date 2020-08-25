@@ -20,13 +20,15 @@ const CreateProduct = () => {
     photoURL: "",
     stock: 0,
     psv: 0,
+    dimensions: { height: 0, length: 0, width: 0 },
+    weight: 0,
   };
 
   return (
     <div className="container">
       <ProductForm
         click={handleClick}
-        btnName={"Criar"}
+        actionType={"Cadastrar"}
         options={{ selectDefault: "default", product: productOptions }}
       />
     </div>

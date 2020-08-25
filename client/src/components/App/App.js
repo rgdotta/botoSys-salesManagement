@@ -8,7 +8,6 @@ import CreateProduct from "../Products/Create/CreateProduct";
 import { Layout } from "antd";
 import "./App.css";
 
-import NavBar from "../Menus/Navbar/Navbar";
 import SideBar from "../Menus/Sidebar/Sidebar";
 
 const App = () => {
@@ -47,8 +46,6 @@ const App = () => {
       <Router>
         <Layout style={{ minHeight: "100vh", width: "100%" }}>
           <div>
-            <NavBar menu={Menu} />
-
             <SideBar menu={Menu} />
             <Layout.Content className="content">{topics.name}</Layout.Content>
           </div>

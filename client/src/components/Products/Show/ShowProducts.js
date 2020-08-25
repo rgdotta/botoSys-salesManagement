@@ -24,6 +24,11 @@ const ShowProducts = () => {
               <p>{product.photoURL}</p>
               <p>{product.stock}</p>
               <p>{product.psv.$numberDecimal}</p>
+              <p>
+                Tamanho: {product.dimensions.height}A x{" "}
+                {product.dimensions.length}C x {product.dimensions.width}L cm
+              </p>
+              <p>Peso: {product.weight.$numberDecimal}</p>
             </div>
           );
         })}

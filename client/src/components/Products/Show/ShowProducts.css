@@ -1,4 +1,75 @@
-form {
+.cardContainer {
+  width: 100%;
+}
+
+.collapser {
+  width: 40%;
+  margin: 10px auto !important;
+}
+
+.card {
+  width: 100%;
+  margin: auto !important;
+  -moz-box-shadow: 0 0 10px #cccccc;
+  -webkit-box-shadow: 0 0 10px #cccccc;
+  box-shadow: 0 0 10px #cccccc;
+}
+
+.card .ant-card-head,
+.ant-collapse-header {
+  font-weight: bolder;
+  font-size: 20px;
+  background-color: #002140;
+  color: #fff !important;
+  text-align: center;
+}
+
+.cardGrid {
+  width: 50% !important;
+  font-weight: bold;
+  font-size: 18px;
+  padding-left: 40px !important;
+}
+
+.gridTitle {
+  font-size: 18px;
+  text-decoration: underline;
+  margin-bottom: 0;
+}
+
+.gridContent {
+  padding-left: 40px;
+  margin-bottom: 0;
+}
+
+.cardImage {
+  object-fit: cover;
+  width: 100% !important;
+  height: 200px;
+}
+
+.ant-collapse-content-box {
+  padding: 0 !important;
+}
+
+.btnShowContainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.cardBtn {
+  margin: auto 10px;
+}
+
+@media (max-width: 1100px) {
+  .collapser {
+    width: 70%;
+  }
+}
+
+@media (max-width: 780px) {
+  .collapser {
+    width: 90%;
+  }
 }

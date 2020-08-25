@@ -2,13 +2,25 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans");
 
 @font-face {
-  font-family: "Custom";
+  font-family: "Roboto-Mono";
   src: url("../../assets/font/RobotoMono-VariableFont_wght.ttf")
     format("truetype");
 }
 
+@font-face {
+  font-family: "Righteous";
+  src: url("../../assets/font/Righteous-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Khand";
+  src: url("../../assets/font/Khand-Regular.ttf") format("truetype");
+}
+
 .App {
-  font-family: "Custom", Arial, Helvetica, sans-serif;
+  font-family: "Khand", "Righteous", "Roboto-Mono", Arial, Helvetica, sans-serif;
+  font-weight: bold !important;
+  font-size: 16px;
 }
 
 .content {

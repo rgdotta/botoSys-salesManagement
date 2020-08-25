@@ -23,8 +23,8 @@ h1 {
   border-radius: 7px;
   background-color: #ffffff;
   width: 60%;
-  -moz-box-shadow: 0 0 3px #ccc;
-  -webkit-box-shadow: 0 10px 3px #ccc;
+  -moz-box-shadow: 20px 10px 3px #ccc;
+  -webkit-box-shadow: 20px 10px 3px #ccc;
   box-shadow: 20px 10px 3px #ccc;
 }
 
@@ -68,6 +68,6 @@ hr {
 
 @media (max-width: 780px) {
   .form {
-    width: 100%;
+    width: 95%;
   }
 }

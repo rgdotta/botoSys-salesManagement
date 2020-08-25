@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Form, Input, Button, Select, InputNumber } from "antd";
-import "./ProductForm.css";
+import "../../../css/Form.css";
 
 const ProductForm = ({ click, actionType, options }) => {
   const [product, setProduct] = useState(options.product);
@@ -76,7 +76,7 @@ const ProductForm = ({ click, actionType, options }) => {
         size="large"
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 14 }}
-        formLayout="horinzontal"
+        formLayout="vertical"
       >
         <div className="formTitle">
           <h1>{actionType} Produto</h1>

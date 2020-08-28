@@ -54,6 +54,17 @@
   margin: auto 10px;
 }
 
+.filterContainer {
+  width: 100%;
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+}
+
+.filterContainer p {
+  margin: auto 5px;
+}
+
 @media (max-width: 1100px) {
   .collapser {
     width: 70%;

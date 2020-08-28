@@ -3,13 +3,26 @@ import React, { useState, useEffect } from "react";
 import { getApi, deleteApi } from "../../../bin/callApi";
 import { useHistory } from "react-router-dom";
 
-import { Card, Collapse, Button, Popconfirm, List } from "antd";
+import { Card, Collapse, Button, Popconfirm, List, Select } from "antd";
 import "./ShowProducts.css";
 
 const ShowProducts = () => {
   const [products, setProducts] = useState();
+  const [filteredProducts, setFilter] = useState();
 
   const history = useHistory();
+
+  const handleFilter = (value) => {
+    console.log(value);
+
+    if (value === "Todos") {
+      setFilter(products);
+    } else {
+      const filtered = products.filter((product) => product.type === value);
+
+      setFilter(filtered);
+    }
+  };
 
   const handleDelete = (toDelete, index) => {
     const prevProducts = [...products];
@@ -21,20 +34,47 @@ const ShowProducts = () => {
     prevProducts.splice(index, 1);
 
     setProducts(prevProducts);
+
+    const deleteFromFilter = filteredProducts.filter((product) => {
+      return product._id !== toDelete;
+    });
+
+    setFilter(deleteFromFilter);
     console.log(products);
   };
 
   console.log(products);
 
   useEffect(() => {
-    getApi("products").then((data) => setProducts(data));
+    getApi("products").then((data) => {
+      setProducts(data);
+      setFilter(data);
+    });
   }, []);
 
   return (
     <div>
+      <div className="filterContainer">
+        <p>Filtrar por:</p>
+        <Select
+          id="filter"
+          name="filter"
+          defaultValue="Todos"
+          style={{ width: 150 }}
+          onChange={(value) => handleFilter(value)}
+        >
+          <Select.Option value="Todos">Todos</Select.Option>
+          <Select.Option value="Cockpit">Cockpit</Select.Option>
+          <Select.Option value="Suporte de TV">Suporte de TV</Select.Option>
+          <Select.Option value="Acessório">Acessório</Select.Option>
+          <Select.Option value="Volante">Volante</Select.Option>
+          <Select.Option value="Outros">Outros</Select.Option>
+        </Select>
+      </div>
+
       <Collapse className="collapser">
-        {products &&
-          products.map((product, index) => {
+        {filteredProducts &&
+          filteredProducts.map((product, index) => {
             return (
               <Collapse.Panel header={product.name} key={product._id}>
                 <div className="cardContainer">
@@ -102,7 +142,6 @@ const ShowProducts = () => {
                         <Button
                           className="cardBtn"
                           size="large"
-                          primary
                           onClick={() =>
                             history.push(
                               "/products/edit/" + product._id,

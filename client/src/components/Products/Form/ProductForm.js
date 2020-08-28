@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 
+import { useHistory } from "react-router-dom";
+
 import { Form, Input, Button, Select, InputNumber } from "antd";
 import "../../../css/Form.css";
 
 const ProductForm = ({ click, actionType, options }) => {
   const [product, setProduct] = useState(options.product);
   const [error, setError] = useState({});
+
+  const history = useHistory();
 
   const handleChange = (name, value) => {
     //create
@@ -60,10 +64,9 @@ const ProductForm = ({ click, actionType, options }) => {
     if (!valid) {
       setError(errors);
     } else {
-      click(e, product);
+      click(product);
 
-      setError({});
-      setProduct(options.product);
+      history.push("/products/show");
     }
 
     e.preventDefault();
@@ -76,7 +79,6 @@ const ProductForm = ({ click, actionType, options }) => {
         size="large"
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 14 }}
-        formLayout="vertical"
       >
         <div className="formTitle">
           <h1>{actionType} Produto</h1>

@@ -68,6 +68,7 @@ hr {
 
 @media (max-width: 780px) {
   .form {
-    width: 95%;
+    width: 100%;
+    padding: auto 10px !important;
   }
 }

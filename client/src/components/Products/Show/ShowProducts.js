@@ -1,26 +1,43 @@
 import React, { useState, useEffect } from "react";
 
-import { getApi } from "../../../bin/callApi";
+import { getApi, deleteApi } from "../../../bin/callApi";
+import { useHistory } from "react-router-dom";
 
-import { Card, Collapse, Button, Popconfirm } from "antd";
+import { Card, Collapse, Button, Popconfirm, List } from "antd";
 import "./ShowProducts.css";
 
 const ShowProducts = () => {
   const [products, setProducts] = useState();
 
+  const history = useHistory();
+
+  const handleDelete = (toDelete, index) => {
+    const prevProducts = [...products];
+
+    deleteApi("products", {
+      id: toDelete,
+    });
+
+    prevProducts.splice(index, 1);
+
+    setProducts(prevProducts);
+    console.log(products);
+  };
+
+  console.log(products);
+
   useEffect(() => {
     getApi("products").then((data) => setProducts(data));
   }, []);
-  console.log(products);
 
   return (
     <div>
       <Collapse className="collapser">
         {products &&
-          products.map((product) => {
+          products.map((product, index) => {
             return (
-              <Collapse.Panel header={product.name}>
-                <div key={product._id} className="cardContainer">
+              <Collapse.Panel header={product.name} key={product._id}>
+                <div className="cardContainer">
                   <Card
                     className="card"
                     cover={
@@ -31,54 +48,82 @@ const ShowProducts = () => {
                       />
                     }
                   >
-                    <Card.Grid className="cardGrid">
-                      <p className="gridTitle">CÓDIGO:</p>
-                      <p className="gridContent">{product.code}</p>
-                    </Card.Grid>
-                    <Card.Grid className="cardGrid">
-                      <p className="gridTitle">TIPO:</p>
-                      <p className="gridContent">{product.type}</p>
-                    </Card.Grid>
-                    <Card.Grid className="cardGrid">
-                      <p className="gridTitle">ESTOQUE:</p>
-                      <p className="gridContent">{product.stock}</p>
-                    </Card.Grid>
-                    <Card.Grid className="cardGrid">
-                      <p className="gridTitle">PREÇO:</p>
-                      <p className="gridContent">
-                        R$ {product.psv.$numberDecimal}
-                      </p>
-                    </Card.Grid>
-                    <Card.Grid className="cardGrid">
-                      <p className="gridTitle">DIMENÇÕES:</p>
-                      <p className="gridContent">
-                        {product.dimensions.height}A x{" "}
-                        {product.dimensions.length}C x{" "}
-                        {product.dimensions.width}L CM
-                      </p>
-                    </Card.Grid>
-                    <Card.Grid className="cardGrid">
-                      <p className="gridTitle">PESO:</p>
-                      <p className="gridContent">
-                        {product.weight.$numberDecimal} KG
-                      </p>
-                    </Card.Grid>
-                    <Card.Grid style={{ width: "100%" }}>
-                      <div className="btnShowContainer">
-                        <Button className="cardBtn" size="large" type="primary">
+                    <List bordered>
+                      <List.Item>
+                        <List.Item.Meta
+                          className="listItem"
+                          title="CÓDIGO"
+                          description={product.code}
+                        />
+                      </List.Item>
+                      <List.Item>
+                        <List.Item.Meta
+                          className="listItem"
+                          title="TIPO"
+                          description={product.type}
+                        />
+                      </List.Item>
+                      <List.Item>
+                        <List.Item.Meta
+                          className="listItem"
+                          title="Estoque"
+                          description={product.stock + " unidades"}
+                        />
+                      </List.Item>
+                      <List.Item>
+                        <List.Item.Meta
+                          className="listItem"
+                          title="PREÇO"
+                          description={"R$ " + product.psv.$numberDecimal}
+                        />
+                      </List.Item>
+                      <List.Item>
+                        <List.Item.Meta
+                          className="listItem"
+                          title="DIMENSÕES (CM)"
+                          description={
+                            product.dimensions.height +
+                            " Altura x " +
+                            product.dimensions.length +
+                            " Comprimento x " +
+                            product.dimensions.width +
+                            " Largura"
+                          }
+                        />
+                      </List.Item>
+                      <List.Item>
+                        <List.Item.Meta
+                          className="listItem"
+                          title="PESO"
+                          description={product.weight.$numberDecimal + " KG"}
+                        />
+                      </List.Item>
+                      <List.Item className="btnShowContainer">
+                        <Button
+                          className="cardBtn"
+                          size="large"
+                          primary
+                          onClick={() =>
+                            history.push(
+                              "/products/edit/" + product._id,
+                              product
+                            )
+                          }
+                        >
                           Editar
                         </Button>
                         <Popconfirm
                           title="Você tem certeza que quer deletar esse produto?"
-                          okText="Yes"
-                          cancelText="No"
+                          okText="Sim"
+                          cancelText="Não"
+                          onConfirm={() => handleDelete(product._id, index)}
                         >
                           <Button className="cardBtn" size="large" danger>
                             Deletar
                           </Button>
                         </Popconfirm>
-                      </div>
-                    </Card.Grid>
+                      </List.Item>
+                    </List>
                   </Card>
                 </div>
               </Collapse.Panel>

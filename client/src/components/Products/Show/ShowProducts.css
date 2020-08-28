@@ -19,27 +19,19 @@
 .ant-collapse-header {
   font-weight: bolder;
   font-size: 20px;
-  background-color: #002140;
+  background-color: #8f8f8f;
   color: #fff !important;
   text-align: center;
 }
 
-.cardGrid {
-  width: 50% !important;
-  font-weight: bold;
-  font-size: 18px;
-  padding-left: 40px !important;
+.ant-card-body {
+  padding: 0 !important;
 }
 
-.gridTitle {
-  font-size: 18px;
-  text-decoration: underline;
-  margin-bottom: 0;
-}
-
-.gridContent {
-  padding-left: 40px;
-  margin-bottom: 0;
+.ant-list-item-meta-title,
+.ant-list-item-meta-description {
+  font-size: 16px !important;
+  letter-spacing: 1px;
 }
 
 .cardImage {

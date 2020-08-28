@@ -7,6 +7,7 @@ export async function getApi(route) {
 
     let data = await response.json();
 
+    console.log(data);
     return data;
   } catch (err) {
     console.error(`ERROR: ${err}`);

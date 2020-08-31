@@ -2,9 +2,11 @@ import React from "react";
 
 import TopicMenu from "../Menus/TopicMenu";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
 import ShowProducts from "../Products/Show/ShowProducts";
 import CreateProduct from "../Products/Create-Edit/CreateProduct";
 import EditProduct from "../Products/Create-Edit/EditProduct";
+import Stock from "../Products/Stock/Stock";
 
 import { Layout } from "antd";
 import "./App.css";
@@ -28,6 +30,7 @@ const App = () => {
       options: [
         { name: "Cadastrar", route: "/products/create" },
         { name: "Catalogo", route: "/products/show" },
+        { name: "Estoque", route: "/products/stock" },
       ],
     },
     {
@@ -57,6 +60,7 @@ const App = () => {
                 <Route path="/products/create" component={CreateProduct} />
                 <Route path="/products/edit/:product" component={EditProduct} />
                 <Route path="/products/show" component={ShowProducts} />
+                <Route path="/products/stock" component={Stock} />
               </Switch>
             </Layout>
           </div>

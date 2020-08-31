@@ -12,7 +12,7 @@ const CreateProduct = () => {
 
   const productOptions = {
     type: "",
-    code: "",
+    code: [],
     name: "",
     photoURL: "",
     stock: 0,

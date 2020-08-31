@@ -12,6 +12,7 @@ const ShowProducts = () => {
 
   const history = useHistory();
 
+  //filter products by type
   const handleFilter = (value) => {
     console.log(value);
 
@@ -24,6 +25,7 @@ const ShowProducts = () => {
     }
   };
 
+  //delete product
   const handleDelete = (toDelete, index) => {
     const prevProducts = [...products];
 
@@ -43,8 +45,7 @@ const ShowProducts = () => {
     console.log(products);
   };
 
-  console.log(products);
-
+  //get products from api
   useEffect(() => {
     getApi("products").then((data) => {
       setProducts(data);
@@ -90,11 +91,41 @@ const ShowProducts = () => {
                   >
                     <List bordered>
                       <List.Item>
-                        <List.Item.Meta
-                          className="listItem"
-                          title="CÓDIGO"
-                          description={product.code}
-                        />
+                        {product.type === "Cockpit" ? (
+                          <List.Item.Meta
+                            title="Código"
+                            description={
+                              <div style={{ width: "100%" }}>
+                                <Card.Grid
+                                  hoverable={false}
+                                  style={{ boxShadow: "none" }}
+                                >
+                                  SPEC: <br />
+                                  {product.code[0]}
+                                </Card.Grid>
+                                <Card.Grid
+                                  hoverable={false}
+                                  style={{ boxShadow: "none" }}
+                                >
+                                  SPEC I: <br />
+                                  {product.code[1]}
+                                </Card.Grid>
+                                <Card.Grid
+                                  hoverable={false}
+                                  style={{ boxShadow: "none" }}
+                                >
+                                  SPEC II: <br /> {product.code[2]}
+                                </Card.Grid>
+                              </div>
+                            }
+                          />
+                        ) : (
+                          <List.Item.Meta
+                            className="listItem"
+                            title="CÓDIGO"
+                            description={product.code[0]}
+                          />
+                        )}
                       </List.Item>
                       <List.Item>
                         <List.Item.Meta
@@ -106,15 +137,21 @@ const ShowProducts = () => {
                       <List.Item>
                         <List.Item.Meta
                           className="listItem"
-                          title="Estoque"
-                          description={product.stock + " unidades"}
+                          title="ESTOQUE"
+                          description={
+                            product.stock +
+                            (product.stock === 1 ? " unidade" : " unidades")
+                          }
                         />
                       </List.Item>
                       <List.Item>
                         <List.Item.Meta
                           className="listItem"
                           title="PREÇO"
-                          description={"R$ " + product.psv.$numberDecimal}
+                          description={new Intl.NumberFormat("pt-BR", {
+                            style: "currency",
+                            currency: "BRL",
+                          }).format(product.psv.$numberDecimal)}
                         />
                       </List.Item>
                       <List.Item>

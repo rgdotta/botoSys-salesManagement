@@ -11,32 +11,42 @@ const ProductForm = ({ click, actionType, options }) => {
 
   const history = useHistory();
 
-  const handleChange = (name, value) => {
+  const handleChange = (name, value, parentName) => {
     //create
-    setProduct((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      };
-    });
+    if (parentName === "dimensions") {
+      setProduct((prev) => {
+        return {
+          ...prev,
+          dimensions: {
+            ...prev.dimensions,
+            [name]: value,
+          },
+        };
+      });
+    } else if (parentName === "code") {
+      let newCode = [...product.code];
+      newCode[name] = value;
+
+      setProduct((prev) => {
+        return {
+          ...prev,
+          code: newCode,
+        };
+      });
+    } else {
+      setProduct((prev) => {
+        return {
+          ...prev,
+          [name]: value,
+        };
+      });
+    }
   };
 
   console.log(product);
 
-  const handleSize = (name, value) => {
-    setProduct((prev) => {
-      return {
-        ...prev,
-        dimensions: {
-          ...prev.dimensions,
-          [name]: value,
-        },
-      };
-    });
-  };
-
   const submitProduct = (e) => {
-    //validation
+    //form validation
     let errors = {};
     let valid = true;
     const required = "Campo obrigatório.";
@@ -112,8 +122,18 @@ const ProductForm = ({ click, actionType, options }) => {
         >
           <Input
             placeholder="Ex: GTCLM001"
-            value={product.code}
-            onChange={(e) => handleChange("code", e.target.value)}
+            value={product.code[0]}
+            onChange={(e) => handleChange(0, e.target.value, "code")}
+          />
+          <Input
+            placeholder="Ex: GTCLM001"
+            value={product.code[1]}
+            onChange={(e) => handleChange(1, e.target.value, "code")}
+          />
+          <Input
+            placeholder="Ex: GTCLM001"
+            value={product.code[2]}
+            onChange={(e) => handleChange(2, e.target.value, "code")}
           />
         </Form.Item>
 
@@ -164,21 +184,25 @@ const ProductForm = ({ click, actionType, options }) => {
             <Form.Item className="dimensionItems" label="A">
               <InputNumber
                 value={product.dimensions.height}
-                onChange={(value) => handleSize("height", value)}
+                onChange={(value) =>
+                  handleChange("height", value, "dimensions")
+                }
               />
             </Form.Item>
 
             <Form.Item className="dimensionItems" label="C">
               <InputNumber
                 value={product.dimensions.length}
-                onChange={(value) => handleSize("length", value)}
+                onChange={(value) =>
+                  handleChange("length", value, "dimensions")
+                }
               />
             </Form.Item>
 
             <Form.Item className="dimensionItems" label="L">
               <InputNumber
                 value={product.dimensions.width}
-                onChange={(value) => handleSize("width", value)}
+                onChange={(value) => handleChange("width", value, "dimensions")}
               />
             </Form.Item>
           </Input.Group>

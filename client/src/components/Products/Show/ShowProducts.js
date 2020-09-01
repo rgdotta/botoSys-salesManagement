@@ -89,11 +89,11 @@ const ShowProducts = () => {
                       />
                     }
                   >
-                    <List bordered>
+                    <List>
                       <List.Item>
                         {product.type === "Cockpit" ? (
                           <List.Item.Meta
-                            title="Código"
+                            title="CÓDIGO"
                             description={
                               <div style={{ width: "100%" }}>
                                 <Card.Grid

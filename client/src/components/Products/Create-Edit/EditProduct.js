@@ -1,5 +1,5 @@
 import React from "react";
-import ProductForm from "../Form/ProductForm";
+import ProductForm from "./Form/ProductForm";
 
 import { patchApi } from "../../../bin/callApi";
 

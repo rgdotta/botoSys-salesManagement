@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { Form, Input, Button, Select, InputNumber } from "antd";
-import "../../../css/Form.css";
+import "../../../../css/Form.css";
 
 const ProductForm = ({ click, actionType, options }) => {
   const [product, setProduct] = useState(options.product);

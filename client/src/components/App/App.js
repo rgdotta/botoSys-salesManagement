@@ -3,10 +3,14 @@ import React from "react";
 import TopicMenu from "../Menus/TopicMenu";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+// product routes import
 import ShowProducts from "../Products/Show/ShowProducts";
 import CreateProduct from "../Products/Create-Edit/CreateProduct";
 import EditProduct from "../Products/Create-Edit/EditProduct";
 import Stock from "../Products/Stock/Stock";
+
+// client routes import
+import CreateClient from "../Clients/Create-Edit/CreateClient";
 
 import { Layout } from "antd";
 import "./App.css";
@@ -61,6 +65,8 @@ const App = () => {
                 <Route path="/products/edit/:product" component={EditProduct} />
                 <Route path="/products/show" component={ShowProducts} />
                 <Route path="/products/stock" component={Stock} />
+                {/* client routes */}
+                <Route path="/clients/create" component={CreateClient} />
               </Switch>
             </Layout>
           </div>

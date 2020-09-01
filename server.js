@@ -24,6 +24,7 @@ mongoose.connect("mongodb://localhost:27017/gtsys", {
 
 // app.use("/api/test", test);
 app.use("/api/products", routes.products);
+app.use("/api/clients", routes.clients);
 
 //Listen to port
 app.listen(port, () => {

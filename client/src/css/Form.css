@@ -1,3 +1,4 @@
+/* form structure */
 .formContainer {
   width: 100%;
   margin: auto;
@@ -28,23 +29,13 @@ h1 {
   box-shadow: 20px 10px 3px #ccc;
 }
 
-.btnContainer {
-  justify-content: right !important;
-  margin: 20px !important;
-}
-
 .ant-row {
   justify-content: center;
 }
 
-.btnContainer .ant-col {
-  text-align: right;
-}
-
-.btnContainer .btn {
-  width: 200px;
-  background-color: #001529;
-  border-color: #000c18;
+.dimensionItems {
+  width: 30%;
+  margin-left: 3% !important;
 }
 
 hr {
@@ -55,12 +46,62 @@ hr {
   margin-bottom: 31px;
 }
 
-.dimensionItems {
-  width: 30%;
-  margin-left: 3% !important;
+/* formater */
+.formaterInput {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-variant: tabular-nums;
+  list-style: none;
+  -webkit-font-feature-settings: "tnum";
+  font-feature-settings: "tnum", "tnum";
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  min-width: 0;
+  padding: 4px 11px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  line-height: 1.5715;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  width: 180px;
 }
 
-@media (max-width: 1100px) {
+/* button */
+.btnContainer .ant-col {
+  text-align: right;
+}
+
+.btnContainer .btn {
+  width: 200px;
+  background-color: #001529;
+  border-color: #000c18;
+}
+
+.btnContainer {
+  justify-content: right !important;
+  margin: 20px !important;
+}
+
+/* sub-title */
+.subTitle {
+  font-size: 18px;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.subTitleHr {
+  margin-bottom: 15px;
+}
+
+@media (max-width: 1200px) {
   .form {
     width: 80%;
   }

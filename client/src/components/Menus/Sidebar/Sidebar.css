@@ -10,3 +10,7 @@
 .ant-layout-content {
   display: none;
 }
+
+aside {
+  margin-right: 0 !important;
+}

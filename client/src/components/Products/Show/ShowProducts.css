@@ -1,10 +1,6 @@
+/* card */
 .cardContainer {
   width: 100%;
-}
-
-.collapser {
-  width: 40%;
-  margin: 10px auto !important;
 }
 
 .card {
@@ -15,17 +11,17 @@
   box-shadow: 0 0 10px #cccccc !important;
 }
 
+.cardBtn {
+  margin: auto 10px;
+}
+
 .card .ant-card-head,
 .ant-collapse-header {
   font-weight: bolder;
   font-size: 20px;
-  background-color: #8f8f8f;
-  color: #fff !important;
+  background-color: #ffff;
+  color: #383428;
   text-align: center;
-}
-
-.ant-collapse-content-box {
-  padding: 0 !important;
 }
 
 .ant-card-body {
@@ -42,6 +38,23 @@
   height: 200px;
 }
 
+/* collapser */
+.collapser {
+  width: 50%;
+  margin: 10px auto !important;
+  background-color: #f0f2f5 !important;
+  border: none !important;
+}
+
+.ant-collapse-item {
+  margin: 10px auto;
+}
+
+.ant-collapse-content-box {
+  padding: 0 !important;
+}
+
+/* list */
 .ant-list-item-meta-title,
 .ant-list-item-meta-description {
   font-size: 16px !important;
@@ -52,16 +65,14 @@
   padding-left: 30px !important;
 }
 
+/* btn */
 .btnShowContainer {
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
 
-.cardBtn {
-  margin: auto 10px;
-}
-
+/* filter */
 .filterContainer {
   width: 100%;
   margin: 20px auto;
@@ -71,6 +82,12 @@
 
 .filterContainer p {
   margin: auto 5px;
+}
+
+@media (max-width: 1300px) {
+  .collapser {
+    width: 60%;
+  }
 }
 
 @media (max-width: 1100px) {

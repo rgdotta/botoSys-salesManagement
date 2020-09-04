@@ -11,9 +11,10 @@ const CreateClient = () => {
   };
 
   const clientOptions = {
-    entity: "",
+    entity: "CPF",
     name: "",
-    cpf: null,
+    companyName: "",
+    document: null,
     contact: {
       email: "",
       cellphone: null,

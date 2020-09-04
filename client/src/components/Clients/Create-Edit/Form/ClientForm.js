@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
 import { useHistory } from "react-router-dom";
+import NumberFormat from "react-number-format";
 
-import { Form, Input, Button, Select, InputNumber } from "antd";
+import { Form, Input, Button, Select, InputNumber, Radio } from "antd";
 import "../../../../css/Form.css";
 
 const ClientForm = ({ click, actionType, options }) => {
@@ -72,21 +73,80 @@ const ClientForm = ({ click, actionType, options }) => {
 
   return (
     <div className="formContainer">
-      <Form
-        className="form"
-        size="large"
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 14 }}
-      >
+      <Form className="form" labelCol={{ span: 8 }} wrapperCol={{ span: 12 }}>
         <div className="formTitle">
           <h1>{actionType} Cliente</h1>
         </div>
 
+        <Form.Item label="Documento:">
+          <Radio.Group
+            onChange={(e) => handleChange("entity", e.target.value)}
+            value={client.entity}
+          >
+            <Radio value={"CPF"}>CPF</Radio>
+            <Radio value={"CNPJ"}>CNPJ</Radio>
+          </Radio.Group>
+        </Form.Item>
+
         <Form.Item
-          label="Entidade"
+          label="Nome"
           //   validateStatus={error["code"] ? "error" : "success"}
           //   help={error["code"]}
-        ></Form.Item>
+        >
+          <Input
+            value={client.name}
+            onChange={(e) => handleChange("name", e.target.value)}
+          />
+        </Form.Item>
+
+        {client.entity === "CNPJ" && (
+          <Form.Item
+            label="Razão Social/Fantasia"
+            //   validateStatus={error["code"] ? "error" : "success"}
+            //   help={error["code"]}
+          >
+            <Input
+              value={client.companyName}
+              onChange={(e) => handleChange("companyName", e.target.value)}
+            />
+          </Form.Item>
+        )}
+
+        <Form.Item label={client.entity}>
+          <NumberFormat
+            className="formaterInput"
+            format={
+              client.entity === "CPF" ? "##.###.###-##" : "##.###.###/####-##"
+            }
+            value={client.document}
+            onChange={(e) => handleChange("document", e.target.value)}
+          />
+        </Form.Item>
+
+        <hr className="subTitleHr" />
+        <p className="subTitle">Contatos</p>
+
+        <Form.Item
+          label="E-mail"
+          //   validateStatus={error["code"] ? "error" : "success"}
+          //   help={error["code"]}
+        >
+          <Input
+            value={client.contact.email}
+            onChange={(e) => handleChange("email", e.target.value, "contact")}
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="E-mail"
+          //   validateStatus={error["code"] ? "error" : "success"}
+          //   help={error["code"]}
+        >
+          <Input
+            value={client.contact.email}
+            onChange={(e) => handleChange("email", e.target.value, "contact")}
+          />
+        </Form.Item>
 
         <Form.Item className="btnContainer">
           <Button

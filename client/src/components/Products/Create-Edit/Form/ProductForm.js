@@ -2,7 +2,8 @@ import React, { useState } from "react";
 
 import { useHistory } from "react-router-dom";
 
-import { Form, Input, Button, Select, InputNumber } from "antd";
+import ProductFormItem from "./ProductFormItem";
+import { Form, Button } from "antd";
 import "../../../../css/Form.css";
 
 const ProductForm = ({ click, actionType, options }) => {
@@ -56,7 +57,7 @@ const ProductForm = ({ click, actionType, options }) => {
       valid = false;
     }
 
-    if (!product["code"]) {
+    if (!product["code"][0]) {
       errors["code"] = required;
       valid = false;
     }
@@ -84,137 +85,23 @@ const ProductForm = ({ click, actionType, options }) => {
 
   return (
     <div className="formContainer">
-      <Form
-        className="form"
-        size="large"
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 14 }}
-      >
+      <Form className="form" labelCol={{ span: 8 }} wrapperCol={{ span: 14 }}>
         <div className="formTitle">
           <h1>{actionType} Produto</h1>
         </div>
-        <Form.Item
-          label="Tipo:"
-          validateStatus={error["type"] ? "error" : "success"}
-          help={error["type"]}
-        >
-          <Select
-            id="Select"
-            name="type"
-            defaultValue={options.selectDefault}
-            onChange={(value) => handleChange("type", value)}
-          >
-            <Select.Option disabled value="default">
-              Selecione uma opção
-            </Select.Option>
-            <Select.Option value="Cockpit">Cockpit</Select.Option>
-            <Select.Option value="Suporte de TV">Suporte de TV</Select.Option>
-            <Select.Option value="Acessório">Acessório</Select.Option>
-            <Select.Option value="Volante">Volante</Select.Option>
-            <Select.Option value="Outros">Outros</Select.Option>
-          </Select>
-        </Form.Item>
 
-        <Form.Item
-          label="Código"
-          validateStatus={error["code"] ? "error" : "success"}
-          help={error["code"]}
-        >
-          <Input
-            placeholder="Ex: GTCLM001"
-            value={product.code[0]}
-            onChange={(e) => handleChange(0, e.target.value, "code")}
-          />
-          <Input
-            placeholder="Ex: GTCLM001"
-            value={product.code[1]}
-            onChange={(e) => handleChange(1, e.target.value, "code")}
-          />
-          <Input
-            placeholder="Ex: GTCLM001"
-            value={product.code[2]}
-            onChange={(e) => handleChange(2, e.target.value, "code")}
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="Nome:"
-          validateStatus={error["name"] ? "error" : "success"}
-          help={error["name"]}
-        >
-          <Input
-            value={product.name}
-            onChange={(e) => handleChange("name", e.target.value)}
-            placeholder="Ex: Cockpit Aluminium LM SPEC"
-          />
-        </Form.Item>
-
-        <Form.Item label="Foto URL:">
-          <Input
-            value={product.photoURL}
-            onChange={(e) => handleChange("photoURL", e.target.value)}
-          />
-        </Form.Item>
-
-        <hr />
-
-        <Form.Item label="Estoque:">
-          <InputNumber
-            value={product.stock}
-            onChange={(value) => handleChange("stock", value)}
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="PSV:"
-          validateStatus={error["psv"] ? "error" : "success"}
-          help={error["psv"]}
-        >
-          <InputNumber
-            value={product.psv}
-            step={0.2}
-            onChange={(value) => handleChange("psv", value)}
-          />
-        </Form.Item>
-
-        <hr />
-
-        <Form.Item label="Dimensões (cm)">
-          <Input.Group compact>
-            <Form.Item className="dimensionItems" label="A">
-              <InputNumber
-                value={product.dimensions.height}
-                onChange={(value) =>
-                  handleChange("height", value, "dimensions")
-                }
-              />
-            </Form.Item>
-
-            <Form.Item className="dimensionItems" label="C">
-              <InputNumber
-                value={product.dimensions.length}
-                onChange={(value) =>
-                  handleChange("length", value, "dimensions")
-                }
-              />
-            </Form.Item>
-
-            <Form.Item className="dimensionItems" label="L">
-              <InputNumber
-                value={product.dimensions.width}
-                onChange={(value) => handleChange("width", value, "dimensions")}
-              />
-            </Form.Item>
-          </Input.Group>
-        </Form.Item>
-
-        <Form.Item label="Peso (kg):">
-          <InputNumber
-            value={product.weight}
-            step={0.2}
-            onChange={(value) => handleChange("weight", value)}
-          />
-        </Form.Item>
+        {Object.entries(product).map((property, index) => {
+          return (
+            <ProductFormItem
+              key={index}
+              property={property}
+              change={handleChange}
+              error={error}
+              def={options.selectDefault}
+              type={product.type}
+            />
+          );
+        })}
 
         <Form.Item className="btnContainer">
           <Button

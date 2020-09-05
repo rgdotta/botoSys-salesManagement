@@ -6,7 +6,15 @@ import NumberFormat from "react-number-format";
 const ProductFormItem = ({ property, change, error, def, type }) => {
   const [key, value] = property;
 
-  //filds that need validation
+  const selectOptions = [
+    "Cockpit",
+    "Suporte de TV",
+    "Acessório",
+    "Volante",
+    "Outros",
+  ];
+
+  //fields that need validation
   if (key === "type" || key === "code" || key === "name" || key === "psv") {
     return (
       <Form.Item
@@ -42,11 +50,13 @@ const ProductFormItem = ({ property, change, error, def, type }) => {
             <Select.Option disabled value="default">
               Selecione uma opção
             </Select.Option>
-            <Select.Option value="Cockpit">Cockpit</Select.Option>
-            <Select.Option value="Suporte de TV">Suporte de TV</Select.Option>
-            <Select.Option value="Acessório">Acessório</Select.Option>
-            <Select.Option value="Volante">Volante</Select.Option>
-            <Select.Option value="Outros">Outros</Select.Option>
+            {selectOptions.map((option, index) => {
+              return (
+                <Select.Option key={index} value={option}>
+                  {option}
+                </Select.Option>
+              );
+            })}
           </Select>
         )}
 
@@ -95,7 +105,7 @@ const ProductFormItem = ({ property, change, error, def, type }) => {
     key === "stock" ||
     key === "weight"
   ) {
-    //filds that dont need validation
+    //fields that dont need validation
     return (
       <div>
         {(key === "dimensions" || key === "stock") && <hr />}
@@ -116,21 +126,21 @@ const ProductFormItem = ({ property, change, error, def, type }) => {
               <Form.Item className="dimensionItems" label="Altura">
                 <InputNumber
                   value={value.height}
-                  onChange={(value) => change(key, value, "dimensions")}
+                  onChange={(value) => change("height", value, key)}
                 />
               </Form.Item>
 
               <Form.Item className="dimensionItems" label="Comprim.">
                 <InputNumber
                   value={value.length}
-                  onChange={(value) => change(key, value, "dimensions")}
+                  onChange={(value) => change("length", value, key)}
                 />
               </Form.Item>
 
               <Form.Item className="dimensionItems" label="Largura">
                 <InputNumber
                   value={value.width}
-                  onChange={(value) => change(key, value, "dimensions")}
+                  onChange={(value) => change("width", value, key)}
                 />
               </Form.Item>
             </Input.Group>

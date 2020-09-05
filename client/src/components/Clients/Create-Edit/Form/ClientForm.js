@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 
 import { useHistory } from "react-router-dom";
-import NumberFormat from "react-number-format";
 
-import { Form, Input, Button, Select, InputNumber, Radio } from "antd";
+import ClientFormItem from "./ClientFormItem";
+
+import { Form, Button, Radio } from "antd";
+
 import "../../../../css/Form.css";
 
 const ClientForm = ({ click, actionType, options }) => {
@@ -40,25 +42,20 @@ const ClientForm = ({ click, actionType, options }) => {
     let valid = true;
     const required = "Campo obrigatório.";
 
-    // if (!product["type"]) {
-    //   errors["type"] = required;
-    //   valid = false;
-    // }
+    if (!client["name"]) {
+      errors["name"] = required;
+      valid = false;
+    }
 
-    // if (!product["code"]) {
-    //   errors["code"] = required;
-    //   valid = false;
-    // }
+    if (!client["document"]) {
+      errors["document"] = required;
+      valid = false;
+    }
 
-    // if (!product["name"]) {
-    //   errors["name"] = required;
-    //   valid = false;
-    // }
-
-    // if (!product["psv"]) {
-    //   errors["psv"] = required;
-    //   valid = false;
-    // }
+    if (!client["contact"]["email"]) {
+      errors["email"] = required;
+      valid = false;
+    }
 
     if (!valid) {
       setError(errors);
@@ -88,65 +85,17 @@ const ClientForm = ({ click, actionType, options }) => {
           </Radio.Group>
         </Form.Item>
 
-        <Form.Item
-          label="Nome"
-          //   validateStatus={error["code"] ? "error" : "success"}
-          //   help={error["code"]}
-        >
-          <Input
-            value={client.name}
-            onChange={(e) => handleChange("name", e.target.value)}
-          />
-        </Form.Item>
-
-        {client.entity === "CNPJ" && (
-          <Form.Item
-            label="Razão Social/Fantasia"
-            //   validateStatus={error["code"] ? "error" : "success"}
-            //   help={error["code"]}
-          >
-            <Input
-              value={client.companyName}
-              onChange={(e) => handleChange("companyName", e.target.value)}
+        {Object.entries(client).map((property, index) => {
+          return (
+            <ClientFormItem
+              key={index}
+              property={property}
+              change={handleChange}
+              error={error}
+              entity={client.entity}
             />
-          </Form.Item>
-        )}
-
-        <Form.Item label={client.entity}>
-          <NumberFormat
-            className="formaterInput"
-            format={
-              client.entity === "CPF" ? "##.###.###-##" : "##.###.###/####-##"
-            }
-            value={client.document}
-            onChange={(e) => handleChange("document", e.target.value)}
-          />
-        </Form.Item>
-
-        <hr className="subTitleHr" />
-        <p className="subTitle">Contatos</p>
-
-        <Form.Item
-          label="E-mail"
-          //   validateStatus={error["code"] ? "error" : "success"}
-          //   help={error["code"]}
-        >
-          <Input
-            value={client.contact.email}
-            onChange={(e) => handleChange("email", e.target.value, "contact")}
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="E-mail"
-          //   validateStatus={error["code"] ? "error" : "success"}
-          //   help={error["code"]}
-        >
-          <Input
-            value={client.contact.email}
-            onChange={(e) => handleChange("email", e.target.value, "contact")}
-          />
-        </Form.Item>
+          );
+        })}
 
         <Form.Item className="btnContainer">
           <Button

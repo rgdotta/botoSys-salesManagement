@@ -46,6 +46,14 @@ hr {
   margin-bottom: 31px;
 }
 
+.clientIcon {
+  font-size: 25px !important;
+}
+
+.ant-input::placeholder {
+  color: #978faf !important;
+}
+
 /* formater */
 .formaterInput {
   -webkit-box-sizing: border-box;
@@ -71,6 +79,19 @@ hr {
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
   width: 180px;
+}
+
+.formaterInput:hover {
+  border-color: #40a9ff;
+  border-right-width: 1px !important;
+}
+
+.formaterInput:focus {
+  border-color: #40a9ff;
+  border-right-width: 1px !important;
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
 }
 
 /* button */
@@ -99,6 +120,11 @@ hr {
 
 .subTitleHr {
   margin-bottom: 15px;
+}
+
+/* checbox */
+.checkbox {
+  widows: 100%;
 }
 
 @media (max-width: 1200px) {

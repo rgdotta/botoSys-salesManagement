@@ -83,6 +83,8 @@ const ProductForm = ({ click, actionType, options }) => {
     e.preventDefault();
   };
 
+  console.log(product.psv);
+
   return (
     <div className="formContainer">
       <Form className="form" labelCol={{ span: 8 }} wrapperCol={{ span: 14 }}>

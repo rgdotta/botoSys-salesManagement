@@ -22,6 +22,10 @@ const EditProduct = (props) => {
   };
 
   const handleClick = (product) => {
+    if (product["psv"].includes(",")) {
+      product["psv"] = parseFloat(product["psv"].replace(",", "."));
+    }
+
     const newProduct = { id: toEdit._id, ...product };
     putApi("products", newProduct);
   };

@@ -9,6 +9,15 @@ import { Table } from "antd";
 const Stock = () => {
   const [products, setProducts] = useState();
 
+  //table order
+  const order = [
+    "COCKPITS",
+    "SUPORTE DE TV",
+    "ACESSÓRIOS",
+    "VOLANTES",
+    "OUTROS",
+  ];
+
   //get products from api and split it by type
   useEffect(() => {
     getApi("products").then((data) => {
@@ -29,16 +38,6 @@ const Stock = () => {
       setProducts(newProducts);
     });
   }, []);
-
-  //table options
-
-  const order = [
-    "COCKPITS",
-    "SUPORTE DE TV",
-    "ACESSÓRIOS",
-    "VOLANTES",
-    "OUTROS",
-  ];
 
   return (
     <div className="stockContainer">

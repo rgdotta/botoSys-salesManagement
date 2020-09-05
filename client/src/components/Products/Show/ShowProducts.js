@@ -181,7 +181,7 @@ const ShowProducts = () => {
                           size="large"
                           onClick={() =>
                             history.push(
-                              "/products/edit/" + product._id,
+                              "/produtos/editar/" + product._id,
                               product
                             )
                           }

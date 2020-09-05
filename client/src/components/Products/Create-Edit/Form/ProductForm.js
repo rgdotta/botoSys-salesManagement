@@ -44,8 +44,6 @@ const ProductForm = ({ click, actionType, options }) => {
     }
   };
 
-  console.log(product);
-
   const submitProduct = (e) => {
     //form validation
     let errors = {};
@@ -77,13 +75,11 @@ const ProductForm = ({ click, actionType, options }) => {
     } else {
       click(product);
 
-      history.push("/products/show");
+      history.push("/produtos/catalogo");
     }
 
     e.preventDefault();
   };
-
-  console.log(product.psv);
 
   return (
     <div className="formContainer">

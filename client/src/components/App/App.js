@@ -11,6 +11,7 @@ import Stock from "../Products/Stock/Stock";
 
 // client routes import
 import CreateClient from "../Clients/Create-Edit/CreateClient";
+import ShowClients from "../Clients/Show/ShowClients";
 
 import { Layout } from "antd";
 import "./App.css";
@@ -32,17 +33,17 @@ const App = () => {
       name: "Produtos",
       icon: 1,
       options: [
-        { name: "Cadastrar", route: "/products/create" },
-        { name: "Catalogo", route: "/products/show" },
-        { name: "Estoque", route: "/products/stock" },
+        { name: "Cadastrar", route: "/produtos/criar" },
+        { name: "Catalogo", route: "/produtos/catalogo" },
+        { name: "Estoque", route: "/produtos/estoque" },
       ],
     },
     {
       name: "Clientes",
       icon: 2,
       options: [
-        { name: "Cadastrar", route: "/clients/create" },
-        { name: "Lista", route: "/clients/show" },
+        { name: "Cadastrar", route: "/clientes/criar" },
+        { name: "Lista", route: "/clientes/lista" },
       ],
     },
   ];
@@ -61,12 +62,16 @@ const App = () => {
             <Layout className="siteLayout">
               <Switch>
                 {/* product routes */}
-                <Route path="/products/create" component={CreateProduct} />
-                <Route path="/products/edit/:product" component={EditProduct} />
-                <Route path="/products/show" component={ShowProducts} />
-                <Route path="/products/stock" component={Stock} />
+                <Route path="/produtos/criar" component={CreateProduct} />
+                <Route
+                  path="/produtos/editar/:produto"
+                  component={EditProduct}
+                />
+                <Route path="/produtos/catalogo" component={ShowProducts} />
+                <Route path="/produtos/estoque" component={Stock} />
                 {/* client routes */}
-                <Route path="/clients/create" component={CreateClient} />
+                <Route path="/clientes/criar" component={CreateClient} />
+                <Route path="/clientes/lista" component={ShowClients} />
               </Switch>
             </Layout>
           </div>

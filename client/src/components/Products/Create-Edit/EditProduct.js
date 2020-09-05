@@ -1,7 +1,7 @@
 import React from "react";
 import ProductForm from "./Form/ProductForm";
 
-import { patchApi } from "../../../bin/callApi";
+import { putApi } from "../../../bin/callApi";
 
 import "./Product.css";
 
@@ -23,7 +23,7 @@ const EditProduct = (props) => {
 
   const handleClick = (product) => {
     const newProduct = { id: toEdit._id, ...product };
-    patchApi("products", newProduct);
+    putApi("products", newProduct);
   };
 
   return (

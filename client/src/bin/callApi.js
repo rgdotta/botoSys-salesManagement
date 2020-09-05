@@ -38,11 +38,11 @@ export async function postApi(route, data) {
   }
 }
 
-export async function patchApi(route, data) {
+export async function putApi(route, data) {
   try {
     const url = "/api/" + route;
     const config = {
-      method: "PATCH",
+      method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

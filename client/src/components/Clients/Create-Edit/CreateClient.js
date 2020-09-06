@@ -1,13 +1,13 @@
 import React from "react";
 import ClientForm from "./Form/ClientForm";
 
-import { postApi } from "../../../bin/callApi";
+import { fetchApi } from "../../../bin/callApi";
 
 import "./Client.css";
 
 const CreateClient = () => {
   const handleClick = (client) => {
-    postApi("clients", client);
+    fetchApi("POST", "clients", client);
   };
 
   const clientOptions = {

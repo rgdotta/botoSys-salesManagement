@@ -1,7 +1,7 @@
 import React from "react";
 import ProductForm from "./Form/ProductForm";
 
-import { putApi } from "../../../bin/callApi";
+import { fetchApi } from "../../../bin/callApi";
 
 import "./Product.css";
 
@@ -27,7 +27,7 @@ const EditProduct = (props) => {
     }
 
     const newProduct = { id: toEdit._id, ...product };
-    putApi("products", newProduct);
+    fetchApi("PUT", "products", newProduct);
   };
 
   return (

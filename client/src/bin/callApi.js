@@ -14,11 +14,11 @@ export async function getApi(route) {
   }
 }
 
-export async function postApi(route, data) {
+export async function fetchApi(method, route, data) {
   try {
     const url = "/api/" + route;
     const config = {
-      method: "POST",
+      method: method,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -33,55 +33,11 @@ export async function postApi(route, data) {
     const res = await response.json();
 
     console.log(res);
+
+    return res;
   } catch (err) {
     console.error(`ERROR: ${err}`);
   }
 }
 
-export async function putApi(route, data) {
-  try {
-    const url = "/api/" + route;
-    const config = {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
 
-    const response = await fetch(url, config);
-
-    if (!response.ok) throw Error(response.message);
-
-    const res = await response.json();
-
-    console.log(res);
-  } catch (err) {
-    console.error(`ERROR: ${err}`);
-  }
-}
-
-export async function deleteApi(route, id) {
-  try {
-    const url = "/api/" + route;
-    const config = {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(id),
-    };
-
-    const response = await fetch(url, config);
-
-    if (!response.ok) throw Error(response.message);
-
-    const res = await response.json();
-
-    console.log(res);
-  } catch (err) {
-    console.log(`Error: ${err}`);
-  }
-}

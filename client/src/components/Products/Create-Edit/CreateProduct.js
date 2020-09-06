@@ -1,13 +1,13 @@
 import React from "react";
 import ProductForm from "./Form/ProductForm";
 
-import { postApi } from "../../../bin/callApi";
+import { fetchApi } from "../../../bin/callApi";
 
 import "./Product.css";
 
 const CreateProduct = () => {
   const handleClick = (product) => {
-    postApi("products", product);
+    fetchApi("POST", "products", product);
   };
 
   const productOptions = {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { getApi, deleteApi } from "../../../bin/callApi";
+import { getApi, fetchApi } from "../../../bin/callApi";
 import { useHistory } from "react-router-dom";
 
 import { Card, Collapse, Button, Popconfirm, List, Select } from "antd";
@@ -29,7 +29,7 @@ const ShowProducts = () => {
   const handleDelete = (toDelete, index) => {
     const prevProducts = [...products];
 
-    deleteApi("products", {
+    fetchApi("DELETE", "products", {
       id: toDelete,
     });
 

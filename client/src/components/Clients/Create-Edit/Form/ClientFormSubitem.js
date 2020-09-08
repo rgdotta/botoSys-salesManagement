@@ -72,7 +72,8 @@ const ClientFormSubitem = ({ property, change, error, entity }) => {
     key === "complement" ||
     key === "neighborhood" ||
     key === "city" ||
-    key === "state"
+    key === "state" ||
+    key === "zipcode"
   ) {
     //filds that dont need validation
     return (
@@ -100,8 +101,10 @@ const ClientFormSubitem = ({ property, change, error, entity }) => {
               "Complemento"
             ) : key === "city" ? (
               "Cidade"
-            ) : (
+            ) : key === "state" ? (
               "Estado"
+            ) : (
+              "CEP"
             )
           }
         >
@@ -116,6 +119,18 @@ const ClientFormSubitem = ({ property, change, error, entity }) => {
               value={value}
               onValueChange={(value) =>
                 change(key, value.floatValue, "contact")
+              }
+            />
+          )}
+
+          {/* CEP */}
+          {key === "zipcode" && (
+            <NumberFormat
+              className="formaterInput"
+              format="#####-###"
+              value={value}
+              onValueChange={(value) =>
+                change(key, value.formattedValue, "adress")
               }
             />
           )}

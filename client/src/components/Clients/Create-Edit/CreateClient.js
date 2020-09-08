@@ -25,6 +25,7 @@ const CreateClient = () => {
       street: "",
       stNumber: null,
       complement: "",
+      zipcode: "",
       neighborhood: "",
       city: "",
       state: "",

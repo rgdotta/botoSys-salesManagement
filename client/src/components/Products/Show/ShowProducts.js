@@ -69,6 +69,7 @@ const ShowProducts = () => {
           <Select.Option value="Suporte de TV">Suporte de TV</Select.Option>
           <Select.Option value="Acessório">Acessório</Select.Option>
           <Select.Option value="Volante">Volante</Select.Option>
+          <Select.Option value="Banco">Banco</Select.Option>
           <Select.Option value="Outros">Outros</Select.Option>
         </Select>
       </div>
@@ -178,6 +179,7 @@ const ShowProducts = () => {
                       <List.Item className="btnShowContainer">
                         <Button
                           className="cardBtn"
+                          type="link"
                           size="large"
                           onClick={() =>
                             history.push(
@@ -194,7 +196,12 @@ const ShowProducts = () => {
                           cancelText="Não"
                           onConfirm={() => handleDelete(product._id, index)}
                         >
-                          <Button className="cardBtn" size="large" danger>
+                          <Button
+                            type="link"
+                            className="cardBtn"
+                            size="large"
+                            danger
+                          >
                             Deletar
                           </Button>
                         </Popconfirm>

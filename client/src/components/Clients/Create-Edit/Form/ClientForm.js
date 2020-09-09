@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 import ClientFormItem from "./ClientFormItem";
 
 import { Form, Button, Radio } from "antd";
-
 import "../../../../css/Form.css";
 
 const ClientForm = ({ click, actionType, options }) => {

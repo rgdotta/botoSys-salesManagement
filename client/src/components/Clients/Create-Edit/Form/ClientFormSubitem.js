@@ -10,7 +10,7 @@ import {
   WhatsAppOutlined,
 } from "@ant-design/icons";
 
-const ClientFormSubitem = ({ property, change, error, entity }) => {
+const ClientFormSubitem = ({ property, change, error, def }) => {
   const [whatsapp, setWhatsapp] = useState(false);
   const [key, value] = property;
 
@@ -113,9 +113,7 @@ const ClientFormSubitem = ({ property, change, error, entity }) => {
             <NumberFormat
               placeholder={key === "cellphone" ? "Celular" : "Telefone Fixo"}
               className="formaterInput"
-              format={
-                key === "cellphone" ? "(###)#####-####" : "(###)####-####"
-              }
+              format={key === "cellphone" ? "(##)#####-####" : "(##)####-####"}
               value={value}
               onValueChange={(value) =>
                 change(key, value.floatValue, "contact")
@@ -160,7 +158,7 @@ const ClientFormSubitem = ({ property, change, error, entity }) => {
               style={{ width: "70px" }}
               id="Select"
               name="state"
-              defaultValue="default"
+              defaultValue={def}
               onChange={(value) => change("state", value, "adress")}
             >
               <Select.Option disabled value="default"></Select.Option>
@@ -194,7 +192,7 @@ const ClientFormSubitem = ({ property, change, error, entity }) => {
             <NumberFormat
               placeholder="Whatsapp"
               className="formaterInput"
-              format="(###)#####-####"
+              format="(##)#####-####"
               value={value}
               onValueChange={(value) =>
                 change(key, value.floatValue, "contact")

@@ -7,7 +7,7 @@ import ClientFormItem from "./ClientFormItem";
 import { Form, Button, Radio } from "antd";
 import "../../../../css/Form.css";
 
-const ClientForm = ({ click, actionType, options }) => {
+const ClientForm = ({ click, actionType, options, selectDefault }) => {
   const [client, setClient] = useState(options.client);
   const [error, setError] = useState({});
 
@@ -61,7 +61,7 @@ const ClientForm = ({ click, actionType, options }) => {
     } else {
       click(client);
 
-      history.push("/clients/show");
+      history.push("/clients/lista");
     }
 
     e.preventDefault();
@@ -92,6 +92,7 @@ const ClientForm = ({ click, actionType, options }) => {
               change={handleChange}
               error={error}
               entity={client.entity}
+              def={selectDefault}
             />
           );
         })}

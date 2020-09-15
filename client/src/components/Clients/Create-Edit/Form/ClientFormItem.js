@@ -2,11 +2,13 @@ import React from "react";
 
 import { Form, Input, DatePicker } from "antd";
 import NumberFormat from "react-number-format";
+import moment from "moment";
 
 import ClientFormSubitem from "./ClientFormSubitem";
 
-const ClientFormItem = ({ property, change, error, entity }) => {
+const ClientFormItem = ({ property, change, error, entity, def }) => {
   const [key, value] = property;
+  key === "birthday" && console.log(moment(value));
 
   //fields that need validation
   if (key === "name" || key === "document" || key === "email") {
@@ -43,7 +45,7 @@ const ClientFormItem = ({ property, change, error, entity }) => {
               <DatePicker
                 format="DD/MM/YYYY"
                 style={{ width: "50%" }}
-                value={value}
+                defaultValue={moment(value)}
                 onChange={(date) => change(key, date)}
               />
             </Form.Item>
@@ -69,7 +71,7 @@ const ClientFormItem = ({ property, change, error, entity }) => {
           property={property}
           change={change}
           error={error}
-          entity={entity}
+          def={def}
         />
       );
     });

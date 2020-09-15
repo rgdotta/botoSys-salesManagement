@@ -39,6 +39,7 @@ const CreateClient = () => {
         click={handleClick}
         actionType={"Cadastrar"}
         options={{ selectDefault: "default", client: clientOptions }}
+        selectDefault="default"
       />
     </div>
   );

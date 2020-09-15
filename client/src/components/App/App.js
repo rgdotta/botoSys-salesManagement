@@ -11,6 +11,7 @@ import Stock from "../Products/Stock/Stock";
 
 // client routes import
 import CreateClient from "../Clients/Create-Edit/CreateClient";
+import EditClient from "../Clients/Create-Edit/EditClient";
 import ShowClients from "../Clients/Show/ShowClients";
 
 import { Layout } from "antd";
@@ -72,6 +73,10 @@ const App = () => {
                 {/* client routes */}
                 <Route path="/clientes/criar" component={CreateClient} />
                 <Route path="/clientes/lista" component={ShowClients} />
+                <Route
+                  path="/clientes/editar/:cliente"
+                  component={EditClient}
+                />
               </Switch>
             </Layout>
           </div>

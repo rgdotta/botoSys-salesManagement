@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 
 import { getApi, fetchApi } from "../../../bin/callApi";
+import { useHistory } from "react-router-dom";
 import NumberFormat from "react-number-format";
+import moment from "moment";
 
 import { Table, List, Button, Popconfirm } from "antd";
 import "./ShowClients.css";
 
 const ShowClients = () => {
   const [clients, setClients] = useState();
+
+  const history = useHistory();
 
   useEffect(() => {
     getApi("clients").then((data) => setClients(data));
@@ -31,6 +35,10 @@ const ShowClients = () => {
 
   clients &&
     clients.forEach((client, index) => {
+      const bDay = client.birthday
+        ? moment(client.birthday).format("DD/MM/YYYY")
+        : "";
+
       const mainInstance = {
         id: client._id,
         key: index,
@@ -49,35 +57,36 @@ const ShowClients = () => {
           <NumberFormat
             value={client.contact.cellphone}
             displayType={"text"}
-            format="(###)#####-####"
+            format="(##)#####-####"
           />
         ),
         email: client.contact.email,
         subInstance: {
           key: index,
           company: client.companyName,
-          address:
+          adress:
             client.adress.street +
             ", " +
             client.adress.stNumber +
             " - " +
             client.adress.complement,
           zipcode: client.adress.zipcode,
-          neightborhood: client.adress.neightborhood,
+          neighborhood: client.adress.neighborhood,
           phone: (
             <NumberFormat
               value={client.contact.phone}
               displayType={"text"}
-              format="(###)####-####"
+              format="(##)####-####"
             />
           ),
           whatsapp: (
             <NumberFormat
               value={client.contact.whatsapp}
               displayType={"text"}
-              format="(###)######-####"
+              format="(##)######-####"
             />
           ),
+          birthday: bDay,
         },
       };
 
@@ -93,6 +102,7 @@ const ShowClients = () => {
       { title: "Bairro", dataIndex: "neighborhood", key: "neightborhood" },
       { title: "Telefone Fixo", dataIndex: "phone", key: "phone" },
       { title: "Whatsapp", dataIndex: "whatsapp", key: "whatsapp" },
+      { title: "Aniversário", dataIndex: "birthday", key: "birthday" },
     ];
 
     return (
@@ -101,7 +111,14 @@ const ShowClients = () => {
         dataSource={listItems}
         footer={
           <div className="btnGroup">
-            <Button type="link">Editar</Button>
+            <Button
+              type="link"
+              onClick={() =>
+                history.push("/clientes/editar/" + record.id, clients[index])
+              }
+            >
+              Editar
+            </Button>
             <Popconfirm
               title="Você tem certeza que quer deletar esse cliente?"
               okText="Sim"
@@ -137,13 +154,16 @@ const ShowClients = () => {
   console.log(clients);
 
   return (
-    <div>
+    <div className="tableContainer">
       <Table
         className="clientTable"
         columns={mainColumns}
         expandable={{ expandedRowRender }}
         dataSource={mainData}
         scroll={{ x: 1300 }}
+        pagination={{
+          defaultPageSize: 20,
+        }}
       />
     </div>
   );

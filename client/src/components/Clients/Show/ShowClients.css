@@ -1,5 +1,11 @@
-.clientTable {
+.tableContainer {
   width: 100%;
+  margin: auto;
+}
+
+.clientTable {
+  width: 100% !important;
+  margin: auto;
 }
 
 .btnGroup {

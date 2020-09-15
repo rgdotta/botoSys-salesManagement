@@ -14,7 +14,6 @@ const Sidebar = ({ menu }) => {
     <Layout.Sider
       className="sidebar"
       breakpoint={"lg"}
-      theme="dark"
       collapsible
       collapsed={collapsed}
       onCollapse={onCollapse}

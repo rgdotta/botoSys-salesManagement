@@ -18,7 +18,7 @@
 .card .ant-card-head,
 .ant-collapse-header {
   font-weight: bolder;
-  font-size: 20px;
+  font-size: 18px;
   background-color: #ffff;
   color: #383428;
   text-align: center;
@@ -57,7 +57,7 @@
 /* list */
 .ant-list-item-meta-title,
 .ant-list-item-meta-description {
-  font-size: 16px !important;
+  font-size: 14px !important;
   letter-spacing: 1px;
 }
 

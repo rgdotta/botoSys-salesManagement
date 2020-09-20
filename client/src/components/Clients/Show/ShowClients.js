@@ -5,12 +5,13 @@ import { useHistory } from "react-router-dom";
 import NumberFormat from "react-number-format";
 import moment from "moment";
 
+import Filter from "./ClientFilter";
+
 import { Table, List, Button, Popconfirm, Select, Input } from "antd";
 import "./ShowClients.css";
 
 const ShowClients = () => {
   const [clients, setClients] = useState();
-  const [filter, setFilter] = useState();
   const [filteredClients, setFilteredClients] = useState();
 
   const history = useHistory();
@@ -38,15 +39,15 @@ const ShowClients = () => {
   //separate data into table format
   const mainData = [];
 
-  const handleFilter = (filter2) => {
-    if (filter === " " || !filter2) {
+  const handleFilter = (filter2, filter1) => {
+    if (filter1 === " " || !filter2) {
       setFilteredClients(clients);
     } else {
       const filtered = clients.filter((client) => {
         const name = client["name"].toUpperCase();
         const city = client["adress"]["city"].toUpperCase();
 
-        return filter === "city"
+        return filter1 === "city"
           ? city.includes(filter2.toUpperCase())
           : name.includes(filter2.toUpperCase());
       });
@@ -175,40 +176,9 @@ const ShowClients = () => {
 
   console.log(clients);
 
-  const filterOptions = ["Nome", "Cidade"];
-
   return (
     <div className="tableContainer">
-      <div className="clientFilter">
-        <p>Filtrar por:</p>
-        <div>
-          <Select
-            id="filter"
-            name="filter"
-            defaultValue=" "
-            style={{ width: 150 }}
-            onChange={(value) => {
-              let filt =
-                value === "  " ? value : value === "Nome" ? "name" : "city";
-
-              setFilter(filt);
-            }}
-          >
-            <Select.Option value=" "></Select.Option>
-            {filterOptions.map((option, index) => {
-              return (
-                <Select.Option key={index} value={option}>
-                  {option}
-                </Select.Option>
-              );
-            })}
-          </Select>
-          <Input
-            className="filterInput"
-            onChange={(e) => handleFilter(e.target.value)}
-          />
-        </div>
-      </div>
+      <Filter change={handleFilter} />
 
       <Table
         className="clientTable"

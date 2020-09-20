@@ -1,10 +1,11 @@
 import React from "react";
 
-import { Form, Input, DatePicker } from "antd";
 import NumberFormat from "react-number-format";
 import moment from "moment";
 
 import ClientFormSubitem from "./ClientFormSubitem";
+
+import { Form, Input, DatePicker } from "antd";
 
 const ClientFormItem = ({ property, change, error, entity, def }) => {
   const [key, value] = property;

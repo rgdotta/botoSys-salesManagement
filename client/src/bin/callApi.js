@@ -5,10 +5,11 @@ export async function getApi(route) {
 
     if (!response.ok) throw Error(response.message);
 
-    let data = await response.json();
+    if (response.ok) {
+      let data = await response.json();
 
-    console.log(data);
-    return data;
+      return data;
+    }
   } catch (err) {
     console.error(`ERROR: ${err}`);
   }
@@ -30,14 +31,12 @@ export async function fetchApi(method, route, data) {
 
     if (!response.ok) throw Error(response.message);
 
-    const res = await response.json();
+    if (response.ok) {
+      const res = await response.json();
 
-    console.log(res);
-
-    return res;
+      return res;
+    }
   } catch (err) {
     console.error(`ERROR: ${err}`);
   }
 }
-
-

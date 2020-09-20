@@ -1,7 +1,8 @@
 import React from "react";
 
-import { Form, Select, Input, InputNumber } from "antd";
 import NumberFormat from "react-number-format";
+
+import { Form, Select, Input, InputNumber } from "antd";
 
 const ProductFormItem = ({ property, change, error, def, type }) => {
   const [key, value] = property;

@@ -1,4 +1,8 @@
 /* card */
+.productCardGrid {
+  width: 50%;
+}
+
 .cardContainer {
   width: 100%;
 }
@@ -36,6 +40,10 @@
   object-fit: cover;
   width: 100% !important;
   height: 200px;
+}
+
+.cardListGrid {
+  width: 50% !important;
 }
 
 /* collapser */
@@ -99,6 +107,9 @@
 @media (max-width: 780px) {
   .collapser {
     width: 90%;
+  }
+  .cardListGrid {
+    width: 100% !important;
   }
 }
 

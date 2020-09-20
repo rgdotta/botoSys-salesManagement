@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import { Form, Select, Input, InputNumber, Checkbox } from "antd";
 import NumberFormat from "react-number-format";
-
 import {
   PhoneOutlined,
   TabletOutlined,

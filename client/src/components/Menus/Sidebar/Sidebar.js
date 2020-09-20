@@ -4,7 +4,7 @@ import { Layout } from "antd";
 import "./Sidebar.css";
 
 const Sidebar = ({ menu }) => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   const onCollapse = () => {
     setCollapsed(!collapsed);

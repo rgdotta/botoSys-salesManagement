@@ -1,7 +1,8 @@
 import React from "react";
-import ProductForm from "./Form/ProductForm";
 
 import { fetchApi } from "../../../bin/callApi";
+
+import ProductForm from "./Form/ProductForm";
 
 import "./Product.css";
 

@@ -2,13 +2,13 @@ import React, { useState } from "react";
 
 import { useHistory } from "react-router-dom";
 
-import ProductFormItem from "./ProductFormItem";
+import OrderFormItem from "./OrderFormItem.js";
 
-import { Form, Button } from "antd";
+import { Form, Button, Tabs } from "antd";
 import "../../../../css/Form.css";
 
-const ProductForm = ({ click, actionType, options }) => {
-  const [product, setProduct] = useState(options.product);
+const OrderForm = ({ click, actionType, options }) => {
+  const [order, setOrder] = useState(options.order);
   const [error, setError] = useState({});
 
   const history = useHistory();
@@ -16,7 +16,7 @@ const ProductForm = ({ click, actionType, options }) => {
   const handleChange = (name, value, parentName) => {
     //create
     if (parentName === "dimensions") {
-      setProduct((prev) => {
+      setOrder((prev) => {
         return {
           ...prev,
           dimensions: {
@@ -26,17 +26,17 @@ const ProductForm = ({ click, actionType, options }) => {
         };
       });
     } else if (parentName === "code") {
-      let newCode = [...product.code];
+      let newCode = [...order.code];
       newCode[name] = value;
 
-      setProduct((prev) => {
+      setOrder((prev) => {
         return {
           ...prev,
           code: newCode,
         };
       });
     } else {
-      setProduct((prev) => {
+      setOrder((prev) => {
         return {
           ...prev,
           [name]: value,
@@ -45,39 +45,39 @@ const ProductForm = ({ click, actionType, options }) => {
     }
   };
 
-  const submitProduct = (e) => {
+  const submitOrder = (e) => {
     //form validation
-    let errors = {};
-    let valid = true;
-    const required = "Campo obrigatório.";
+    // let errors = {};
+    // let valid = true;
+    // const required = "Campo obrigatório.";
 
-    if (!product["type"]) {
-      errors["type"] = required;
-      valid = false;
-    }
+    // if (!order["type"]) {
+    //   errors["type"] = required;
+    //   valid = false;
+    // }
 
-    if (!product["code"][0]) {
-      errors["code"] = required;
-      valid = false;
-    }
+    // if (!order["code"][0]) {
+    //   errors["code"] = required;
+    //   valid = false;
+    // }
 
-    if (!product["name"]) {
-      errors["name"] = required;
-      valid = false;
-    }
+    // if (!order["name"]) {
+    //   errors["name"] = required;
+    //   valid = false;
+    // }
 
-    if (!product["psv"]) {
-      errors["psv"] = required;
-      valid = false;
-    }
+    // if (!order["psv"]) {
+    //   errors["psv"] = required;
+    //   valid = false;
+    // }
 
-    if (!valid) {
-      setError(errors);
-    } else {
-      click(product);
+    // if (!valid) {
+    //   setError(errors);
+    // } else {
+    click(order);
 
-      history.push("/produtos/catalogo");
-    }
+    history.push("/vendas/consultar");
+    // }
 
     e.preventDefault();
   };
@@ -86,28 +86,27 @@ const ProductForm = ({ click, actionType, options }) => {
     <div className="formContainer">
       <Form className="form" labelCol={{ span: 8 }} wrapperCol={{ span: 14 }}>
         <div className="formTitle">
-          <h1>{actionType} Produto</h1>
+          <h1>{actionType} Venda</h1>
         </div>
-
-        {Object.entries(product).map((property, index) => {
+        <p>{order.orderNum}</p>
+        {/* {Object.entries(order).map((property, index) => {
           return (
-            <ProductFormItem
+            <OrderFormItem
               key={index}
               property={property}
               change={handleChange}
               error={error}
               def={options.selectDefault}
-              type={product.type}
             />
           );
-        })}
+        })} */}
 
         <Form.Item className="btnContainer">
           <Button
             className="btn"
             size="large"
             type="primary"
-            onClick={submitProduct}
+            onClick={submitOrder}
           >
             {actionType}
           </Button>
@@ -117,4 +116,4 @@ const ProductForm = ({ click, actionType, options }) => {
   );
 };
 
-export default ProductForm;
+export default OrderForm;

@@ -12,3 +12,28 @@
   width: 100%;
   text-align: center;
 }
+
+/* filter */
+
+.clientFilter {
+  width: 100%;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.filterInput {
+  width: 300px !important;
+}
+
+.filterContainer div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.filterContainer p {
+  margin: auto 5px;
+}

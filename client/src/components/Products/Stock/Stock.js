@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 
-import "./Stock.css";
-
 import { getApi } from "../../../bin/callApi";
 
 import { Table } from "antd";
+import "./Stock.css";
 
 const Stock = () => {
   const [products, setProducts] = useState();

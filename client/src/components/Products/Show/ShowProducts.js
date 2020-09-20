@@ -3,7 +3,9 @@ import React, { useState, useEffect } from "react";
 import { getApi, fetchApi } from "../../../bin/callApi";
 import { useHistory } from "react-router-dom";
 
-import { Card, Collapse, Button, Popconfirm, List, Select } from "antd";
+import Filter from "./ProductFilter";
+
+import { Card, Collapse, Button, Popconfirm, List } from "antd";
 import "./ShowProducts.css";
 
 const ShowProducts = () => {
@@ -55,24 +57,10 @@ const ShowProducts = () => {
 
   return (
     <div>
-      <div className="filterContainer">
-        <p>Filtrar por:</p>
-        <Select
-          id="filter"
-          name="filter"
-          defaultValue="Todos"
-          style={{ width: 150 }}
-          onChange={(value) => handleFilter(value)}
-        >
-          <Select.Option value="Todos">Todos</Select.Option>
-          <Select.Option value="Cockpit">Cockpit</Select.Option>
-          <Select.Option value="Suporte de TV">Suporte de TV</Select.Option>
-          <Select.Option value="Acessório">Acessório</Select.Option>
-          <Select.Option value="Volante">Volante</Select.Option>
-          <Select.Option value="Banco">Banco</Select.Option>
-          <Select.Option value="Outros">Outros</Select.Option>
-        </Select>
-      </div>
+      <Filter change={handleFilter} />
+      <Card.Grid hoverable={false} className="productCardGrid">
+        {" "}
+      </Card.Grid>
 
       <Collapse className="collapser">
         {filteredProducts &&
@@ -128,33 +116,48 @@ const ShowProducts = () => {
                           />
                         )}
                       </List.Item>
-                      <List.Item>
-                        <List.Item.Meta
-                          className="listItem"
-                          title="TIPO"
-                          description={product.type}
-                        />
-                      </List.Item>
-                      <List.Item>
-                        <List.Item.Meta
-                          className="listItem"
-                          title="ESTOQUE"
-                          description={
-                            product.stock +
-                            (product.stock === 1 ? " unidade" : " unidades")
-                          }
-                        />
-                      </List.Item>
-                      <List.Item>
-                        <List.Item.Meta
-                          className="listItem"
-                          title="PREÇO"
-                          description={new Intl.NumberFormat("pt-BR", {
-                            style: "currency",
-                            currency: "BRL",
-                          }).format(product.psv.$numberDecimal)}
-                        />
-                      </List.Item>
+                      <Card.Grid className="cardListGrid" hoverable={false}>
+                        <List.Item>
+                          <List.Item.Meta
+                            className="listItem"
+                            title="TIPO"
+                            description={product.type}
+                          />
+                        </List.Item>
+                      </Card.Grid>
+                      <Card.Grid className="cardListGrid" hoverable={false}>
+                        <List.Item>
+                          <List.Item.Meta
+                            className="listItem"
+                            title="PREÇO"
+                            description={new Intl.NumberFormat("pt-BR", {
+                              style: "currency",
+                              currency: "BRL",
+                            }).format(product.psv.$numberDecimal)}
+                          />
+                        </List.Item>
+                      </Card.Grid>
+                      <Card.Grid className="cardListGrid" hoverable={false}>
+                        <List.Item>
+                          <List.Item.Meta
+                            className="listItem"
+                            title="ESTOQUE"
+                            description={
+                              product.stock +
+                              (product.stock === 1 ? " unidade" : " unidades")
+                            }
+                          />
+                        </List.Item>
+                      </Card.Grid>
+                      <Card.Grid className="cardListGrid" hoverable={false}>
+                        <List.Item>
+                          <List.Item.Meta
+                            className="listItem"
+                            title="PESO"
+                            description={product.weight.$numberDecimal + " KG"}
+                          />
+                        </List.Item>
+                      </Card.Grid>
                       <List.Item>
                         <List.Item.Meta
                           className="listItem"
@@ -167,13 +170,6 @@ const ShowProducts = () => {
                             product.dimensions.width +
                             " Largura"
                           }
-                        />
-                      </List.Item>
-                      <List.Item>
-                        <List.Item.Meta
-                          className="listItem"
-                          title="PESO"
-                          description={product.weight.$numberDecimal + " KG"}
                         />
                       </List.Item>
                       <List.Item className="btnShowContainer">

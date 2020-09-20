@@ -1,7 +1,8 @@
 import React from "react";
-import ClientForm from "./Form/ClientForm";
 
 import { fetchApi } from "../../../bin/callApi";
+
+import ClientForm from "./Form/ClientForm";
 
 import "./Client.css";
 

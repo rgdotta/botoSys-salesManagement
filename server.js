@@ -33,6 +33,7 @@ const routes = require("./lib/routes/index");
 
 app.use("/api/products", routes.products);
 app.use("/api/clients", routes.clients);
+app.use("/api/orders", routes.orders);
 
 //Listen to port
 app.listen(port, () => {

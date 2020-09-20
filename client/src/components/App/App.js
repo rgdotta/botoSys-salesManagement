@@ -14,9 +14,12 @@ import CreateClient from "../Clients/Create-Edit/CreateClient";
 import EditClient from "../Clients/Create-Edit/EditClient";
 import ShowClients from "../Clients/Show/ShowClients";
 
+// order routes
+import CreateOrder from "../Orders/Create-Edit/CreateOrder";
+
+// style && antd
 import { Layout } from "antd";
 import "./App.css";
-
 import SideBar from "../Menus/Sidebar/Sidebar";
 
 const App = () => {
@@ -25,9 +28,9 @@ const App = () => {
       name: "Vendas",
       icon: 0,
       options: [
-        { name: "Cadastrar", route: "/sales/create" },
-        { name: "Consultar", route: "/sales/show" },
-        { name: "Montagem", route: "/sales/order" },
+        { name: "Cadastrar", route: "/vendas/cadastrar" },
+        { name: "Consultar", route: "/vendas/consultar" },
+        { name: "Montagem", route: "/vendas/ordem-de-montagem" },
       ],
     },
     {
@@ -49,6 +52,20 @@ const App = () => {
     },
   ];
 
+  const routes = [
+    { path: "/produtos/criar", component: CreateProduct },
+    { path: "/produtos/editar/:produto", component: EditProduct },
+    { path: "/produtos/catalogo", component: ShowProducts },
+    { path: "/produtos/estoque", component: Stock },
+    { path: "/clientes/criar", component: CreateClient },
+    { path: "/clientes/lista", component: ShowClients },
+    { path: "/clientes/editar/:cliente", component: EditClient },
+    { path: "/vendas/cadastrar", component: CreateOrder },
+    { path: "/vendas/consultar", component: "" },
+    { path: "/vendas/consultar/:venda", component: "" },
+    { path: "/vendas/editar/:venda", component: "" },
+  ];
+
   const Menu = <TopicMenu topics={topics} />;
 
   return (
@@ -62,21 +79,15 @@ const App = () => {
           <div className="siteContainer">
             <Layout className="siteLayout">
               <Switch>
-                {/* product routes */}
-                <Route path="/produtos/criar" component={CreateProduct} />
-                <Route
-                  path="/produtos/editar/:produto"
-                  component={EditProduct}
-                />
-                <Route path="/produtos/catalogo" component={ShowProducts} />
-                <Route path="/produtos/estoque" component={Stock} />
-                {/* client routes */}
-                <Route path="/clientes/criar" component={CreateClient} />
-                <Route path="/clientes/lista" component={ShowClients} />
-                <Route
-                  path="/clientes/editar/:cliente"
-                  component={EditClient}
-                />
+                {routes.map((route, index) => {
+                  return (
+                    <Route
+                      key={index}
+                      path={route.path}
+                      component={route.component}
+                    />
+                  );
+                })}
               </Switch>
             </Layout>
           </div>

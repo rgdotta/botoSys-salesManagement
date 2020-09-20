@@ -31,7 +31,7 @@ const CreateClient = () => {
       city: "",
       state: "",
     },
-    birthday: new Date(),
+    birthday: "",
   };
 
   return (

@@ -46,7 +46,7 @@ const ClientFormItem = ({ property, change, error, entity, def }) => {
               <DatePicker
                 format="DD/MM/YYYY"
                 style={{ width: "50%" }}
-                defaultValue={moment(value)}
+                defaultValue={value && moment(value)}
                 onChange={(date) => change(key, date)}
               />
             </Form.Item>

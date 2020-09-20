@@ -3,6 +3,9 @@ import React from "react";
 import TopicMenu from "../Menus/TopicMenu";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+// home route
+import Home from "../Home/Home";
+
 // product routes import
 import ShowProducts from "../Products/Show/ShowProducts";
 import CreateProduct from "../Products/Create-Edit/CreateProduct";
@@ -64,6 +67,7 @@ const App = () => {
     { path: "/vendas/consultar", component: "" },
     { path: "/vendas/consultar/:venda", component: "" },
     { path: "/vendas/editar/:venda", component: "" },
+    { path: "/", component: Home },
   ];
 
   const Menu = <TopicMenu topics={topics} />;

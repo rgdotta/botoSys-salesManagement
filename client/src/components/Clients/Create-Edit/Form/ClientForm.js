@@ -60,7 +60,7 @@ const ClientForm = ({ click, actionType, options, selectDefault }) => {
     } else {
       click(client);
 
-      history.push("/clients/lista");
+      history.push("/clientes/lista");
     }
 
     e.preventDefault();

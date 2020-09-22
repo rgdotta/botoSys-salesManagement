@@ -7,6 +7,8 @@ import OrderFormItem from "./OrderFormItem.js";
 import { Form, Button, Tabs } from "antd";
 import "../../../../css/Form.css";
 
+const { TabPane } = Tabs;
+
 const OrderForm = ({ click, actionType, options }) => {
   const [order, setOrder] = useState(options.order);
   const [error, setError] = useState({});
@@ -82,24 +84,55 @@ const OrderForm = ({ click, actionType, options }) => {
     e.preventDefault();
   };
 
+  const selection = [
+    {
+      name: "Geral",
+      opt: [
+        "orderNum",
+        "date",
+        "codes",
+        "products",
+        "pricePerProduct",
+        "observation",
+        "totalWeight",
+        "totalValue",
+        "discount",
+        "finalValue",
+      ],
+    },
+    { name: "Cliente", opt: ["client"] },
+    {
+      name: "Acabamento",
+      opt: ["ledColor", "finishingColor", "seatFabric", "seam"],
+    },
+  ];
+
   return (
     <div className="formContainer">
       <Form className="form" labelCol={{ span: 8 }} wrapperCol={{ span: 14 }}>
         <div className="formTitle">
           <h1>{actionType} Venda</h1>
         </div>
-        <p>{order.orderNum}</p>
-        {/* {Object.entries(order).map((property, index) => {
-          return (
-            <OrderFormItem
-              key={index}
-              property={property}
-              change={handleChange}
-              error={error}
-              def={options.selectDefault}
-            />
-          );
-        })} */}
+        <Tabs style={{ margin: "15px" }}>
+          {selection.map((tab, index) => {
+            return (
+              <TabPane tab={tab.name} key={index}>
+                {Object.entries(order).map((property, index) => {
+                  return (
+                    <OrderFormItem
+                      key={index}
+                      selection={tab.opt}
+                      property={property}
+                      change={handleChange}
+                      error={error}
+                      def={options.selectDefault}
+                    />
+                  );
+                })}
+              </TabPane>
+            );
+          })}
+        </Tabs>
 
         <Form.Item className="btnContainer">
           <Button

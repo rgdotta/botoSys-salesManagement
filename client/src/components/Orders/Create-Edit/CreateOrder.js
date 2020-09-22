@@ -7,11 +7,11 @@ import OrderForm from "./Form/OrderForm";
 import "./Order.css";
 
 const CreateOrder = () => {
-  const [lastNum, setLastNum] = useState("");
+  const [lastNum, setLastNum] = useState(1);
 
   useEffect(() => {
-    getApi("orders/findLast").then((data) =>
-      data.length > 0 ? setLastNum(data[0]) : setLastNum(0)
+    getApi("orders/findLast").then(
+      (data) => data.length > 0 && setLastNum(data[0])
     );
   }, []);
 
@@ -22,7 +22,7 @@ const CreateOrder = () => {
   console.log(lastNum);
 
   const orderOptions = {
-    orderNum: 0,
+    orderNum: lastNum,
     client: null,
     date: new Date(),
     codes: [],
@@ -30,11 +30,12 @@ const CreateOrder = () => {
     pricePerProduct: [],
     ledColor: "",
     finishingColor: "",
+    seatFabric: "",
     seam: "",
     observation: "",
     totalWeight: null,
     totalValue: null,
-    discount: null,
+    discount: 0,
     finalValue: null,
   };
 

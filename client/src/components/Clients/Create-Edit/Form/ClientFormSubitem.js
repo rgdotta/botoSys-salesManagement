@@ -47,7 +47,6 @@ const ClientFormSubitem = ({ property, change, error, def }) => {
   if (key === "email") {
     return (
       <div>
-        <hr className="subTitleHr" />
         <p className="subTitle">Contatos</p>
 
         <Form.Item
@@ -79,7 +78,6 @@ const ClientFormSubitem = ({ property, change, error, def }) => {
       <div>
         {key === "street" && (
           <div>
-            <hr className="subTitleHr" />
             <p className="subTitle">Endereço</p>
           </div>
         )}

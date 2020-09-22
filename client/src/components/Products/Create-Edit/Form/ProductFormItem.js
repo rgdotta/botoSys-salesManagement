@@ -16,7 +16,7 @@ const ProductFormItem = ({ property, change, error, def, type }) => {
   ];
 
   //fields that need validation
-  if (key === "type" || key === "code" || key === "name" || key === "psv") {
+  if (["type", "code", "name", "psv"].includes(key)) {
     return (
       <Form.Item
         label={
@@ -100,12 +100,7 @@ const ProductFormItem = ({ property, change, error, def, type }) => {
         )}
       </Form.Item>
     );
-  } else if (
-    key === "dimensions" ||
-    key === "photoURL" ||
-    key === "stock" ||
-    key === "weight"
-  ) {
+  } else if (["dimensions", "photoURL", "stock", "weight"].includes(key)) {
     //fields that dont need validation
     return (
       <div>

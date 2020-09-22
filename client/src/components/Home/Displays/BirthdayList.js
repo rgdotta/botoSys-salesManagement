@@ -14,31 +14,6 @@ const BirthdayList = () => {
   const date = new Date();
   const thisMonth = date.getMonth();
 
-  const filterMonthBirthdays = (data) => {
-    [1, 2, 3].forEach((each) => {
-      const filtered = data.filter((client) => {
-        const clientBirthday = client.birthday
-          ? new Date(client.birthday)
-          : undefined;
-        const clientBMonth = clientBirthday && clientBirthday.getMonth();
-        const clientBDay = clientBirthday && clientBirthday.getDay();
-
-        const thisDay = date.getDay();
-
-        return each === 1
-          ? clientBMonth === thisMonth
-          : each === 2
-          ? clientBMonth === thisMonth + 1
-          : clientBMonth === thisMonth && clientBDay === thisDay;
-      });
-      each === 1
-        ? setMonthBirthdays(filtered)
-        : each === 2
-        ? setNextBirthdays(filtered)
-        : setTodayBirthdays(filtered);
-    });
-  };
-
   useEffect(() => {
     getApi("/clients/findBirthdays").then((data) => {
       data.forEach((client) => {
@@ -48,6 +23,32 @@ const BirthdayList = () => {
       });
 
       setbMonths(data);
+
+      const filterMonthBirthdays = (data) => {
+        [1, 2, 3].forEach((each) => {
+          const filtered = data.filter((client) => {
+            const clientBirthday = client.birthday
+              ? new Date(client.birthday)
+              : undefined;
+            const clientBMonth = clientBirthday && clientBirthday.getMonth();
+            const clientBDay = clientBirthday && clientBirthday.getDay();
+
+            const thisDay = date.getDay();
+
+            return each === 1
+              ? clientBMonth === thisMonth
+              : each === 2
+              ? clientBMonth === thisMonth + 1
+              : clientBMonth === thisMonth && clientBDay === thisDay;
+          });
+          each === 1
+            ? setMonthBirthdays(filtered)
+            : each === 2
+            ? setNextBirthdays(filtered)
+            : setTodayBirthdays(filtered);
+        });
+      };
+
       filterMonthBirthdays(data);
     });
   }, []);

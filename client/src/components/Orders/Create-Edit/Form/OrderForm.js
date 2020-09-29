@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import OrderFormItem from "./OrderFormItem.js";
+import OrderTable from "./OrderTable";
 
 import { Form, Button, Tabs } from "antd";
 import "../../../../css/Form.css";
@@ -17,24 +18,33 @@ const OrderForm = ({ click, actionType, options }) => {
 
   const handleChange = (name, value, parentName) => {
     //create
-    if (parentName === "dimensions") {
-      setOrder((prev) => {
-        return {
-          ...prev,
-          dimensions: {
-            ...prev.dimensions,
-            [name]: value,
-          },
-        };
-      });
-    } else if (parentName === "code") {
-      let newCode = [...order.code];
-      newCode[name] = value;
+    if (name === "discount") {
+      const sum = order.totalValue;
+      const applyDiscount = sum - (sum * value) / 100;
+
+      console.log(sum, value, applyDiscount);
 
       setOrder((prev) => {
         return {
           ...prev,
-          code: newCode,
+          finalValue: applyDiscount,
+        };
+      });
+
+      setOrder((prev) => {
+        return {
+          ...prev,
+          [name]: value,
+        };
+      });
+    } else if (parentName === "pricePerProduct") {
+      let newValue = [...order[parentName]];
+      newValue[name] = value;
+
+      setOrder((prev) => {
+        return {
+          ...prev,
+          [parentName]: newValue,
         };
       });
     } else {
@@ -46,6 +56,8 @@ const OrderForm = ({ click, actionType, options }) => {
       });
     }
   };
+
+  console.log(order);
 
   const submitOrder = (e) => {
     //form validation
@@ -76,6 +88,7 @@ const OrderForm = ({ click, actionType, options }) => {
     // if (!valid) {
     //   setError(errors);
     // } else {
+
     click(order);
 
     history.push("/vendas/consultar");
@@ -87,23 +100,16 @@ const OrderForm = ({ click, actionType, options }) => {
   const selection = [
     {
       name: "Geral",
-      opt: [
-        "orderNum",
-        "date",
-        "codes",
-        "products",
-        "pricePerProduct",
-        "observation",
-        "totalWeight",
-        "totalValue",
-        "discount",
-        "finalValue",
-      ],
+      opt: ["orderNum", "date", "products", "pricePerProduct", "totalWeight"],
     },
     { name: "Cliente", opt: ["client"] },
     {
       name: "Acabamento",
       opt: ["ledColor", "finishingColor", "seatFabric", "seam"],
+    },
+    {
+      name: "Observação",
+      opt: ["observation"],
     },
   ];
 
@@ -129,6 +135,9 @@ const OrderForm = ({ click, actionType, options }) => {
                     />
                   );
                 })}
+                {tab.name === "Geral" && (
+                  <OrderTable order={order} change={handleChange} />
+                )}
               </TabPane>
             );
           })}

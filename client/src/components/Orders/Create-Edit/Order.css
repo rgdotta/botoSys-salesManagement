@@ -1,0 +1,14 @@
+.buyerContainer {
+  margin: 20px 10px;
+}
+
+.selectionContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.finalValue input {
+  margin-bottom: 0;
+  border: none;
+}

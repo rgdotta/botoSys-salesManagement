@@ -4,7 +4,7 @@ import { getApi } from "../../../../bin/callApi";
 
 import { Select } from "antd";
 
-const BuyerInfo = () => {
+const BuyerInfo = ({ change }) => {
   const [clients, setClients] = useState();
   const [selected, setSelected] = useState();
 
@@ -14,6 +14,7 @@ const BuyerInfo = () => {
     });
 
     setSelected(chosen[0]);
+    change("client", chosen[0]._id);
   };
 
   useEffect(() => {
@@ -25,9 +26,15 @@ const BuyerInfo = () => {
   return (
     <div>
       <Select
+        style={{ width: "250px" }}
         defaultValue="default"
         id="Select"
         onChange={(value) => handleChange(value)}
+        showSearch
+        optionFilterProp="children"
+        filterOption={(input, option) =>
+          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        }
       >
         <Select.Option disabled value="default">
           Selecione um cliente

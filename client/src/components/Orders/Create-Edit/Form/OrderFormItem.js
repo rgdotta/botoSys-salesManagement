@@ -7,7 +7,14 @@ import { Form, Select, Input, InputNumber } from "antd";
 import BuyerInfo from "./BuyerInfo";
 const { TextArea } = Input;
 
-const ProductFormItem = ({ selection, property, change, error, def, type }) => {
+const ProductFormItem = ({
+  selection,
+  property,
+  change,
+  error,
+  def,
+  totalVal,
+}) => {
   const [key, value] = property;
 
   //fields that need validation
@@ -22,30 +29,11 @@ const ProductFormItem = ({ selection, property, change, error, def, type }) => {
       //fields that dont need validation
       return (
         <div>
-          <Form.Item label="Observações">
+          <Form.Item>
             <TextArea
-              rows={3}
+              rows={5}
               value={value}
               onChange={(e) => change(key, e.target.value)}
-            />
-          </Form.Item>
-        </div>
-      );
-    } else if (key === "discount") {
-      //fields that dont need validation
-      return (
-        <div>
-          <Form.Item
-            label="Desconto"
-            style={{ display: "flex", flexDirection: "row" }}
-          >
-            <InputNumber
-              max={100}
-              min={0}
-              value={value}
-              formatter={(value) => `${value}%`}
-              parser={(value) => value.replace("%", "")}
-              onChange={(value) => change(key, value)}
             />
           </Form.Item>
         </div>
@@ -107,7 +95,7 @@ const ProductFormItem = ({ selection, property, change, error, def, type }) => {
       return (
         <div>
           <Form.Item>
-            <BuyerInfo />
+            <BuyerInfo change={change} />
           </Form.Item>
         </div>
       );

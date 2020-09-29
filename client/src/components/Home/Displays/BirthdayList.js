@@ -17,9 +17,9 @@ const BirthdayList = () => {
   useEffect(() => {
     getApi("/clients/findBirthdays").then((data) => {
       data.forEach((client) => {
-        const date = client.birthday;
+        const date2 = client.birthday;
 
-        client.formatedBirthday = moment(date).format("DD/MM/YYYY");
+        client.formatedBirthday = moment(date2).format("DD/MM/YYYY");
       });
 
       setbMonths(data);
@@ -31,9 +31,9 @@ const BirthdayList = () => {
               ? new Date(client.birthday)
               : undefined;
             const clientBMonth = clientBirthday && clientBirthday.getMonth();
-            const clientBDay = clientBirthday && clientBirthday.getDay();
+            const clientBDay = clientBirthday && clientBirthday.getDate();
 
-            const thisDay = date.getDay();
+            const thisDay = date.getDate();
 
             return each === 1
               ? clientBMonth === thisMonth

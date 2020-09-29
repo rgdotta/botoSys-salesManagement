@@ -13,6 +13,7 @@ const Stock = () => {
     "COCKPITS",
     "SUPORTE DE TV",
     "ACESSÓRIOS",
+    "BANCOS",
     "VOLANTES",
     "OUTROS",
   ];
@@ -20,7 +21,7 @@ const Stock = () => {
   //get products from api and split it by type
   useEffect(() => {
     getApi("products").then((data) => {
-      const newProducts = [[], [], [], [], []];
+      const newProducts = [[], [], [], [], [], []];
       data.forEach((product) => {
         if (product.type === "Cockpit") {
           newProducts[0].push(product);
@@ -28,10 +29,12 @@ const Stock = () => {
           newProducts[1].push(product);
         } else if (product.type === "Acessório") {
           newProducts[2].push(product);
-        } else if (product.type === "Volante") {
+        } else if (product.type === "Bancos") {
           newProducts[3].push(product);
-        } else if (product.type === "Outros") {
+        } else if (product.type === "Volante") {
           newProducts[4].push(product);
+        } else if (product.type === "Outros") {
+          newProducts[5].push(product);
         }
       });
       setProducts(newProducts);

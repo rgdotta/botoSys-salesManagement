@@ -1,6 +1,6 @@
 /* card */
 .productCardGrid {
-  width: 50%;
+  width: 50% !important;
 }
 
 .cardContainer {
@@ -48,7 +48,7 @@
 
 /* collapser */
 .collapser {
-  width: 50%;
+  width: 90%;
   margin: 10px auto !important;
   background-color: #f0f2f5 !important;
   border: none !important;
@@ -92,19 +92,10 @@
   margin: auto 5px;
 }
 
-@media (max-width: 1300px) {
-  .collapser {
-    width: 60%;
-  }
-}
-
-@media (max-width: 1100px) {
-  .collapser {
-    width: 70%;
-  }
-}
-
 @media (max-width: 780px) {
+  .productCardGrid {
+    width: 100% !important;
+  }
   .collapser {
     width: 90%;
   }

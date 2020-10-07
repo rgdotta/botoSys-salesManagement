@@ -3,20 +3,29 @@ import React, { useState, useEffect } from "react";
 import { getApi } from "../../../../bin/callApi";
 import NumberFormat from "react-number-format";
 
-import OrderFormItem from "./OrderFormItem";
-
 import { Table, Select, Button, Form, InputNumber } from "antd";
-import CloseOutlined from "@ant-design/icons";
 
 import "../Order.css";
 
-const OrderTable = ({ order, change }) => {
+const OrderTable = ({ order, change, error }) => {
+  //current selected product
   const [product, setProduct] = useState();
+  //product list that will be chosen in the selection
   const [productList, setProductList] = useState();
+  //current selected product list
   const [selectedProducts, setSelectedProducts] = useState([]);
+  //source for the table
   const [tableSource, setTableSource] = useState([]);
-  const [val, setVal] = useState({ totalVal: 0, discount: 0, finalVal: 0 });
+  //total = total value without aditionals or discount, totalVal = total value of the order, finalVal = total value after discount
+  const [val, setVal] = useState({
+    total: 0,
+    totalVal: 0,
+    discount: 0,
+    finalVal: 0,
+  });
+  const [aditional, setAditional] = useState({ install: 0, others: 0 });
 
+  //set the products ids that will be sent to the db for population
   const handleChange = (value) => {
     const prod = productList.filter((product) => {
       return value === product._id;
@@ -25,17 +34,90 @@ const OrderTable = ({ order, change }) => {
     setProduct(prod[0]);
   };
 
+  //change the price
+  const handlePrice = (value, source, other) => {
+    if (value !== undefined) {
+      let sumFinal;
+
+      if (source === "install" || source === "others") {
+        let input = 0;
+
+        if (parseFloat(value) > 0) {
+          input = parseFloat(value);
+        }
+
+        //sum the total value with the aditional value and set the new total value and value after discount
+        const sumVal = input + aditional[other];
+        const sum = val.total + sumVal;
+
+        sumFinal = sum - (sum * val.discount) / 100;
+
+        //change both values in state and parent component state
+        setVal((prev) => {
+          return { ...prev, totalVal: sum };
+        });
+
+        setAditional((prev) => {
+          return { ...prev, [source]: value };
+        });
+
+        change("totalValue", sum);
+        change(source, value, "aditionalValue");
+      } else {
+        setVal((prev) => {
+          return { ...prev, discount: value };
+        });
+
+        change("discount", value);
+
+        //set new final value after discount
+        sumFinal = val.totalVal - (val.totalVal * value) / 100;
+      }
+
+      setVal((prev) => {
+        return { ...prev, finalVal: sumFinal };
+      });
+
+      change("finalValue", sumFinal);
+    }
+  };
+
+  //this function calculate the nem value with and without discount and send them to parent component state
+  const calcVal = (selected) => {
+    let sumVal = selected
+      .map((product) => {
+        console.log(product["psv"]);
+        return parseFloat(product["psv"]["$numberDecimal"]);
+      })
+      .reduce((a, b) => a + b, 0);
+
+    let sumTotal = sumVal + aditional.install + aditional.others;
+
+    let sumFinal = sumVal - (sumVal * val.discount) / 100;
+
+    setVal((prev) => {
+      return { ...prev, totalVal: sumTotal, finalVal: sumVal, total: sumVal };
+    });
+
+    change("totalValue", sumVal);
+    change("finalValue", sumFinal);
+  };
+
   const handleClick = () => {
     if (product) {
       const index = selectedProducts.length;
       const selected = [...selectedProducts, product];
-      const ids = selected.map((product) => {
-        return product._id;
+
+      selected.forEach((e) => {
+        ["dimensions", "stock", "photoURL", "weight"].forEach(
+          (d) => delete e[d]
+        );
       });
-
+      //select the products and the function that sends then to the parent component state
       setSelectedProducts(selected);
-      change("products", ids);
+      change("products", selected);
 
+      //source for the table
       const source = [
         ...tableSource,
         {
@@ -46,26 +128,13 @@ const OrderTable = ({ order, change }) => {
             style: "currency",
             currency: "BRL",
           }).format(product.psv.$numberDecimal),
-          delete: <button></button>,
         },
       ];
 
       setTableSource(source);
 
-      let sumVal = selected
-        .map((product) => {
-          console.log(product["psv"]);
-          return parseFloat(product["psv"]["$numberDecimal"]);
-        })
-        .reduce((a, b) => a + b, 0);
-
-      let sumFinal = sumVal - (sumVal * val.discount) / 100;
-
-      setVal((prev) => {
-        return { ...prev, totalVal: sumVal, finalVal: sumVal };
-      });
-      change("totalValue", sumVal);
-      change("finalValue", sumFinal);
+      //set total value of the order and value after discount
+      calcVal(selected);
     }
   };
 
@@ -89,8 +158,19 @@ const OrderTable = ({ order, change }) => {
       dataIndex: "psv",
       key: "psv",
     },
-    { title: "Deletar", dataIndex: "delete", key: "delete" },
   ];
+
+  const selectOpt = {
+    type: [
+      "Depósito",
+      "Débito",
+      "Crédito",
+      "Dinheiro",
+      "Transferência",
+      "Boleto",
+    ],
+    times: ["À Vista", "À Prazo", "Até 3x", "Até 10x"],
+  };
 
   return (
     <div>
@@ -128,6 +208,11 @@ const OrderTable = ({ order, change }) => {
             Adicionar
           </Button>
         </div>
+        {error.product && (
+          <p style={{ textAlign: "center" }} className="errorTest">
+            {error.product}
+          </p>
+        )}
       </Form.Item>
 
       <div className="orderTableContainer">
@@ -136,9 +221,70 @@ const OrderTable = ({ order, change }) => {
           columns={columns}
           dataSource={tableSource}
         />
+        <div style={{ width: "100%", textAlign: "end", marginBottom: "20px" }}>
+          <Button
+            style={{ margin: "auto auto auto 0" }}
+            className="btn"
+            size="default"
+            type="danger"
+            onClick={() => {
+              const tableFiltered = [...tableSource];
+              tableFiltered.pop();
+
+              setTableSource(tableFiltered);
+
+              const selectedFiltered = [...selectedProducts];
+              selectedFiltered.pop();
+
+              setSelectedProducts(selectedFiltered);
+              change("products", selectedFiltered);
+
+              calcVal(selectedFiltered);
+            }}
+          >
+            Deletar último
+          </Button>
+        </div>
       </div>
 
-      <Form.Item className="finalValue" label="Valor Total">
+      <Form.Item
+        label="Instalação"
+        style={{ display: "flex", flexDirection: "row" }}
+      >
+        <NumberFormat
+          className="formaterInput"
+          thousandSeparator="."
+          prefix={"R$"}
+          decimalScale={2}
+          decimalSeparator=","
+          min={0}
+          value={aditional.install}
+          onValueChange={(value) =>
+            handlePrice(value.floatValue, "install", "others")
+          }
+        />
+      </Form.Item>
+
+      <Form.Item
+        label="Outros Valores"
+        style={{ display: "flex", flexDirection: "row" }}
+      >
+        <NumberFormat
+          className="formaterInput"
+          thousandSeparator="."
+          prefix={"R$"}
+          decimalScale={2}
+          decimalSeparator=","
+          value={aditional.others}
+          onValueChange={(value) =>
+            handlePrice(value.floatValue, "others", "install")
+          }
+        />
+      </Form.Item>
+
+      <hr />
+
+      <Form.Item className="totalValue" label="Valor Total">
         <input
           readOnly
           value={new Intl.NumberFormat("pt-BR", {
@@ -158,33 +304,61 @@ const OrderTable = ({ order, change }) => {
           value={val.discount}
           formatter={(value) => `${value}%`}
           parser={(value) => value.replace("%", "")}
-          onChange={(value) => {
-            setVal((prev) => {
-              return { ...prev, discount: value };
-            });
-
-            change("discount", value);
-
-            const sumFinal = val.totalVal - (val.totalVal * value) / 100;
-
-            setVal((prev) => {
-              return { ...prev, finalVal: sumFinal };
-            });
-
-            change("finalValue", sumFinal);
-          }}
+          onChange={(value) => handlePrice(value)}
         />
       </Form.Item>
 
-      {/* <Form.Item label="Valor Final">
+      <Form.Item label="Valor Final">
         <input
           readOnly
           value={new Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
-          }).format(value)}
+          }).format(val.finalVal)}
         />
-      </Form.Item> */}
+      </Form.Item>
+
+      <hr />
+
+      <Form.Item label="Forma de Pagamento">
+        <Select
+          style={{ width: "250px" }}
+          defaultValue="default"
+          id="Select2"
+          onChange={(value) => change("opt", value, "paymentOptions")}
+        >
+          <Select.Option disabled value="default">
+            Selecione
+          </Select.Option>
+          {selectOpt["type"].map((select) => {
+            return (
+              <Select.Option key={select} value={select}>
+                {select}
+              </Select.Option>
+            );
+          })}
+        </Select>
+      </Form.Item>
+
+      <Form.Item label="Parcelas">
+        <Select
+          style={{ width: "250px" }}
+          defaultValue="default"
+          id="Select2"
+          onChange={(value) => change("times", value, "paymentOptions")}
+        >
+          <Select.Option disabled value="default">
+            Selecione
+          </Select.Option>
+          {selectOpt["times"].map((select) => {
+            return (
+              <Select.Option key={select} value={select}>
+                {select}
+              </Select.Option>
+            );
+          })}
+        </Select>
+      </Form.Item>
     </div>
   );
 };

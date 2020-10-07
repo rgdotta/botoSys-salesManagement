@@ -1,32 +1,27 @@
 import React from "react";
 
-import NumberFormat from "react-number-format";
 import moment from "moment";
 
-import { Form, Select, Input, InputNumber } from "antd";
+import { Form, Select, Input } from "antd";
 import BuyerInfo from "./BuyerInfo";
 const { TextArea } = Input;
 
-const ProductFormItem = ({
-  selection,
-  property,
-  change,
-  error,
-  def,
-  totalVal,
-}) => {
+const ProductFormItem = ({ selection, property, change, error, def }) => {
   const [key, value] = property;
 
-  //fields that need validation
   if (selection.includes(key)) {
     if (["orderNum", "date"].includes(key)) {
       return (
-        <Form.Item label={key === "date" ? "Data" : "Venda nº"}>
-          {key === "date" ? moment(value).format("DD/MM/YYYY") : value}
+        <Form.Item
+          className="infoContainer"
+          label={key === "date" ? "DATA" : "VENDA Nº"}
+        >
+          <p className="formInfo">
+            {key === "date" ? moment(value).format("DD/MM/YYYY") : value}
+          </p>
         </Form.Item>
       );
     } else if (key === "observation") {
-      //fields that dont need validation
       return (
         <div>
           <Form.Item>
@@ -47,7 +42,6 @@ const ProductFormItem = ({
         ["Alcântara", "Couro"],
         ["Lisa", "Diamantada"],
       ];
-      //fields that dont need validation
       return (
         <div>
           <Form.Item
@@ -95,7 +89,7 @@ const ProductFormItem = ({
       return (
         <div>
           <Form.Item>
-            <BuyerInfo change={change} />
+            <BuyerInfo change={change} error={error} />
           </Form.Item>
         </div>
       );

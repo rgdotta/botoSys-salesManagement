@@ -1,38 +1,29 @@
 import React, { useState, useEffect } from "react";
 
-import { getApi, fetchApi } from "../../../bin/callApi";
+import { fetchApi } from "../../../bin/callApi";
 
 import OrderForm from "./Form/OrderForm";
 
 import "./Order.css";
 
 const CreateOrder = () => {
-  const [lastNum, setLastNum] = useState(1);
-
-  useEffect(() => {
-    getApi("orders/findLast").then(
-      (data) => data.length > 0 && setLastNum(data[0])
-    );
-  }, []);
-
   const handleClick = (order) => {
     fetchApi("POST", "orders", order);
   };
 
-  console.log(lastNum);
-
   const orderOptions = {
-    orderNum: lastNum,
+    orderNum: 1,
     client: null,
     date: new Date(),
     products: [],
-    aditionalPrice: null,
+    aditionalPrice: { install: null, others: null },
     ledColor: "",
     finishingColor: "",
     seatFabric: "",
     seam: "",
     observation: "",
     totalWeight: null,
+    paymentOptions: { opt: "", times: "" },
     totalValue: null,
     discount: 0,
     finalValue: null,
@@ -43,7 +34,7 @@ const CreateOrder = () => {
       <OrderForm
         click={handleClick}
         actionType={"Cadastrar"}
-        options={{ selectDefault: "default", order: orderOptions }}
+        options={orderOptions}
       />
     </div>
   );

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { useHistory } from "react-router-dom";
+import { getApi } from "../../../../bin/callApi";
 
 import OrderFormItem from "./OrderFormItem.js";
 import OrderTable from "./OrderTable";
@@ -11,40 +12,29 @@ import "../../../../css/Form.css";
 const { TabPane } = Tabs;
 
 const OrderForm = ({ click, actionType, options }) => {
-  const [order, setOrder] = useState(options.order);
+  const [order, setOrder] = useState(options);
   const [error, setError] = useState({});
+
+  useEffect(() => {
+    getApi("orders/findLast").then((data) => {
+      setOrder((prev) => {
+        return {
+          ...prev,
+          orderNum: data.length > 0 ? data[0].orderNum + 1 : 1,
+        };
+      });
+    });
+  }, []);
 
   const history = useHistory();
 
   const handleChange = (name, value, parentName) => {
     //create
-    if (name === "discount") {
-      const sum = order.totalValue;
-      const applyDiscount = sum - (sum * value) / 100;
-
-      console.log(sum, value, applyDiscount);
-
+    if (parentName === "aditionalPrice" || parentName === "paymentOptions") {
       setOrder((prev) => {
         return {
           ...prev,
-          finalValue: applyDiscount,
-        };
-      });
-
-      setOrder((prev) => {
-        return {
-          ...prev,
-          [name]: value,
-        };
-      });
-    } else if (parentName === "pricePerProduct") {
-      let newValue = [...order[parentName]];
-      newValue[name] = value;
-
-      setOrder((prev) => {
-        return {
-          ...prev,
-          [parentName]: newValue,
+          [parentName]: { ...prev[parentName], [name]: value },
         };
       });
     } else {
@@ -60,39 +50,28 @@ const OrderForm = ({ click, actionType, options }) => {
   console.log(order);
 
   const submitOrder = (e) => {
-    //form validation
-    // let errors = {};
-    // let valid = true;
-    // const required = "Campo obrigatório.";
+    // form validation
+    let errors = {};
+    let valid = true;
+    const required = "Campo obrigatório.";
 
-    // if (!order["type"]) {
-    //   errors["type"] = required;
-    //   valid = false;
-    // }
+    if (!order["client"]) {
+      errors["client"] = required;
+      valid = false;
+    }
 
-    // if (!order["code"][0]) {
-    //   errors["code"] = required;
-    //   valid = false;
-    // }
+    if (!order["finalValue"]) {
+      errors["product"] = "Adicione pelomenos um produto";
+      valid = false;
+    }
 
-    // if (!order["name"]) {
-    //   errors["name"] = required;
-    //   valid = false;
-    // }
+    if (!valid) {
+      setError(errors);
+    } else {
+      click(order);
 
-    // if (!order["psv"]) {
-    //   errors["psv"] = required;
-    //   valid = false;
-    // }
-
-    // if (!valid) {
-    //   setError(errors);
-    // } else {
-
-    click(order);
-
-    history.push("/vendas/consultar");
-    // }
+      // history.push("/vendas/consultar");
+    }
 
     e.preventDefault();
   };
@@ -131,12 +110,16 @@ const OrderForm = ({ click, actionType, options }) => {
                       property={property}
                       change={handleChange}
                       error={error}
-                      def={options.selectDefault}
+                      def={"default"}
                     />
                   );
                 })}
                 {tab.name === "Geral" && (
-                  <OrderTable order={order} change={handleChange} />
+                  <OrderTable
+                    order={order}
+                    change={handleChange}
+                    error={error}
+                  />
                 )}
               </TabPane>
             );

@@ -4,17 +4,21 @@ import { getApi } from "../../../../bin/callApi";
 
 import { Select } from "antd";
 
-const BuyerInfo = ({ change }) => {
+const BuyerInfo = ({ change, error }) => {
   const [clients, setClients] = useState();
   const [selected, setSelected] = useState();
 
   const handleChange = (value) => {
+    //filter clients to get the selected
     const chosen = clients.filter((client) => {
       return value === client._id;
     });
 
+    ["birthday", "orders"].forEach((e) => delete chosen[0][e]);
+
+    //send them to parent component state
     setSelected(chosen[0]);
-    change("client", chosen[0]._id);
+    change("client", [chosen[0]]);
   };
 
   useEffect(() => {
@@ -48,6 +52,7 @@ const BuyerInfo = ({ change }) => {
             );
           })}
       </Select>
+      {error.client && <p className="errorTest">{error.client}</p>}
       {selected && (
         <div className="buyerContainer">
           <p>Nome: {selected.name}</p>

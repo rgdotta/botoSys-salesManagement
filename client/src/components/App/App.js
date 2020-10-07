@@ -19,6 +19,7 @@ import ShowClients from "../Clients/Show/ShowClients";
 
 // order routes
 import CreateOrder from "../Orders/Create-Edit/CreateOrder";
+import OrderList from "../Orders/Show/OrderList";
 
 // style && antd
 import { Layout } from "antd";
@@ -64,7 +65,7 @@ const App = () => {
     { path: "/clientes/lista", component: ShowClients },
     { path: "/clientes/editar/:cliente", component: EditClient },
     { path: "/vendas/cadastrar", component: CreateOrder },
-    { path: "/vendas/consultar", component: "" },
+    { path: "/vendas/consultar", component: OrderList },
     { path: "/vendas/consultar/:venda", component: "" },
     { path: "/vendas/editar/:venda", component: "" },
     { path: "/", component: Home },

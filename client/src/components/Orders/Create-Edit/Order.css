@@ -1,5 +1,9 @@
 .buyerContainer {
   margin: 20px 10px;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 7px;
+  background-color: #f0f0f0;
 }
 
 .selectionContainer {
@@ -11,4 +15,17 @@
 .finalValue input {
   margin-bottom: 0;
   border: none;
+}
+
+.infoContainer {
+  font-size: 16px !important;
+}
+
+.formInfo {
+  margin: auto;
+}
+
+.errorTest {
+  font-size: 12px;
+  color: red;
 }
